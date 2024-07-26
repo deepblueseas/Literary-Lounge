@@ -3,9 +3,9 @@ const typeDefs = `
     authors: String!
     description: String!
     bookId: String!
-    genre: String,
-    publishedDate: Date,
-    summary: String,
+    genre: String
+    publishedDate: Date
+    summary: String
   }
 
   type User {
