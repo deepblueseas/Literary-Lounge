@@ -1,6 +1,6 @@
 const resolvers = {
     Query: {
-      hello: () => {text: 'Hello world!'},
+      hello: () => {Book: 'Hello world!'},
     },
   };
   
