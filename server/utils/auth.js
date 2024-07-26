@@ -1,7 +1,4 @@
-
-import { GraphQLError } from 'graphql';
-const jwt = require('jsonwebtoken');
-
+import decode from 'jwt-decode';
 
 class AuthService {
   getProfile() {
