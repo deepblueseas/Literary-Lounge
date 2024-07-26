@@ -14,6 +14,10 @@ const userSchema = new Schema(
       unique: true,
       match: [/.+@.+\..+/, 'Must match a valid email address']
     },
+    password: {
+      type: String,
+      required: true,
+    },
     books: [
       {
         type: Schema.Types.ObjectId,
