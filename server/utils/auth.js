@@ -1,4 +1,4 @@
-const { GraphQLError } = require('graphql');
+import { GraphQLError } from 'graphql';
 const jwt = require('jsonwebtoken');
 
 const secret = 'mysecretssshhhhhhh';
