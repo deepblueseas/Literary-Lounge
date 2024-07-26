@@ -1,22 +1,12 @@
-const { gql } = require('apollo-server');
-
-
-const typeDefs = gql`
-type Query {
-  hello: String
+const typeDefs = `
+type Text {
+text: String
 }
+
+type Query {
+hello: Text
+}
+
 `;
 
-const resolvers = {
-Query: {
-  hello: () => 'Hello world!',
-},
-};
-
-const { ApolloServer } = require('apollo-server');
-
-const server = new ApolloServer({ typeDefs, resolvers });
-
-server.listen().then(({ url }) => {
-console.log(`🚀  Server ready at ${url}`);
-});
+module.exports = typeDefs;

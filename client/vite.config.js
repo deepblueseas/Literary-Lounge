@@ -14,5 +14,10 @@ export default defineConfig({
         changeOrigin: true
       }
     }
-  }
+  },
+  build: {
+    rollupOptions: {
+      input: '/src/main.jsx',
+    },
+  },
 })
