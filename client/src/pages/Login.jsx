@@ -4,11 +4,22 @@ import { useMutation } from '@apollo/client';
 import { LOGIN_USER } from '../utils/mutations';
 
 import Auth from '../utils/auth';
+import { 
+    Box, 
+    Button, 
+    FormControl, 
+    FormLabel, 
+    Input, 
+    Heading, 
+    Text, 
+    useToast 
+  } from '@chakra-ui/react';
+
 
 const Login = (props) => {
   const [formState, setFormState] = useState({ email: '', password: '' });
   const [login, { error, data }] = useMutation(LOGIN_USER);
-
+  const toast = useToast();
   // update state based on form input changes
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -30,7 +41,13 @@ const Login = (props) => {
 
       Auth.login(data.login.token);
     } catch (e) {
-      console.error(e);
+      toast({
+        title: 'An error occurred.',
+        description: e.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
     }
 
     // clear form values
@@ -41,53 +58,58 @@ const Login = (props) => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Login</h4>
-          <div className="card-body">
+    <Box d="flex" flexDir="column" alignItems="center" mt={8}>
+     <Box maxW="md" borderWidth={1} borderRadius="lg" p={6}>
+     <Heading mb={4} as="h4" size="md" textAlign="center">
+          Login
+        </Heading>
             {data ? (
-              <p>
+              <Text textAlign="center">
                 Success! You may now head{' '}
                 <Link to="/">back to the homepage.</Link>
-              </p>
+                </Text>
             ) : (
               <form onSubmit={handleFormSubmit}>
-                <input
-                  className="form-input"
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                />
-                <input
-                  className="form-input"
-                  placeholder="******"
-                  name="password"
-                  type="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                />
-                <button
-                  className="btn btn-block btn-primary"
-                  style={{ cursor: 'pointer' }}
-                  type="submit"
-                >
-                  Submit
-                </button>
+                <FormControl mb={4}>
+              <FormLabel htmlFor="email">Email</FormLabel>
+              <Input
+                id="email"
+                placeholder="Your email"
+                name="email"
+                type="email"
+                value={formState.email}
+                onChange={handleChange}
+              />
+              </FormControl>
+          <FormControl mb={4}>
+              <FormLabel htmlFor="password">Password</FormLabel>
+              <Input
+                id="password"
+                placeholder="******"
+                name="password"
+                type="password"
+                value={formState.password}
+                onChange={handleChange}
+              />
+            </FormControl>
+            <Button
+              colorScheme="blue"
+              w="full"
+              type="submit"
+            >
+              Submit
+            </Button>
               </form>
             )}
 
             {error && (
-              <div className="my-3 p-3 bg-danger text-white">
-                {error.message}
-              </div>
+          <Box mt={4} p={3} bg="red.500" color="white" borderRadius="md">
+            {error.message}
+          </Box>
             )}
-          </div>
-        </div>
-      </div>
-    </main>
+        
+      </Box>
+    </Box>
   );
 };
 
