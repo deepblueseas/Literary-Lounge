@@ -4,17 +4,22 @@
     "description": "",
     "main": "server/server.js",
     "scripts": {
-      "start": "node server --ignore client",
-      "develop": "concurrently \"cd server && npm run start\" \"cd client && npm run dev\"",
-      "install": "cd server && npm i && cd ../client && npm i",
-      "seed": "cd server && npm run seed",
-      "build": "cd client && npm run build"
+        "start": "node server --ignore client",
+        "develop": "concurrently \"cd server && npm run start\" \"cd client && npm run dev\"",
+        "install": "cd server && npm i && cd ../client && npm i",
+        "seed": "cd server && npm run seed",
+        "build": "cd client && npm run build"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
-      "concurrently": "^5.1.0"
+        "concurrently": "^5.1.0"
+    },
+    "dependencies": {
+        "@chakra-ui/react": "^2.8.2",
+        "@emotion/react": "^11.13.0",
+        "@emotion/styled": "^11.13.0",
+        "framer-motion": "^11.3.17"
     }
-  }
-  
+}
