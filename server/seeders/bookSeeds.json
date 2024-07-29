@@ -6,3 +6,12 @@ type Book {
     publishedDate: Date
     summary: String
   }
+
+
+  [
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+  ]
