@@ -9,6 +9,7 @@ import { setContext } from '@apollo/client/link/context';
 import { Outlet } from 'react-router-dom';
 
 import Header from './components/Header';
+import Rating from './components/Rating';
 import Footer from './components/Footer';
 
 // Construct our main GraphQL API endpoint
@@ -42,6 +43,7 @@ function App() {
         <Header />
         <div className="container">
           <Outlet />
+          <Rating />
         </div>
         <Footer />
       </div>
