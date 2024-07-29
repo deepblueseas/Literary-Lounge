@@ -10,7 +10,7 @@ const BookClubList = () => {
 
   return (
     <div>
-      <h2>Book Clubs</h2>
+      <h2>Put the Club in the Books</h2>
       <ul>
         {data.bookclubs.map(({ id, name, description }) => (
           <li key={id}>{name} - {description}</li>
