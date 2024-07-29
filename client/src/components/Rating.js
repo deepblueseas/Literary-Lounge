@@ -14,7 +14,7 @@ const Rate = () => {
             title: `You have rated ${givenRating} stars`,
             status: 'info',
             duration: 2000,
-            inClosable: true,
+            isClosable: true,
         });
     };
 

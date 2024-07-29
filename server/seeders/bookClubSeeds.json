@@ -1,0 +1,6 @@
+type Bookclub {
+    name: String!
+    description: String!
+    members: [User]
+    savedBooks: [Book]
+}
