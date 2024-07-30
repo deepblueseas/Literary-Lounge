@@ -14,4 +14,33 @@ type Book {
         "description":
         "bookId":
     }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }{
+        "authors":
+        "description":
+        "bookId":
+    }
   ]
