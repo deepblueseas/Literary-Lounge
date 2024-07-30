@@ -1,44 +1,26 @@
-  [
+
+[
     {
-        "title": "This Wretched Valley",     
-        "authors": "Jenny Kiefer",
-        "description":
-        "bookId":
-    }
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "genre": "Fiction",
+        "year": 1925
+    },
     {
-        "title:"        
-        "authors":
-        "description":
-        "bookId":
-    }
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "genre": "Fiction",
+        "year": 1960
+    },
     {
-        "title:"        
-        "authors":
-        "description":
-        "bookId":
-    }
+        "title": "1984",
+        "author": "George Orwell",
+        "genre": "Fiction",
+        "year": 1949
+    },
     {
-        "title:"        
-        "authors":
-        "description":
-        "bookId":
-    }
-    {
-        "title:"        
-        "authors":
-        "description":
-        "bookId":
-    }
-    {
-        "title:"        
-        "authors":
-        "description":
-        "bookId":
-    } {
-        "title:"        
-        "authors":
-        "description":
-        "bookId":
-    }
-    
-  ]
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "genre": "Fiction",
+        "year": 1813
+

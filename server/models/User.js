@@ -24,12 +24,6 @@ const userSchema = new Schema(
         ref: 'Book'
       }
     ],
-    bookclubs: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Bookclub'
-      }
-    ]
   },
   {
     toJSON: {
