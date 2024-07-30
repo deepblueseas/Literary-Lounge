@@ -1,8 +1,9 @@
-import db from '../config/connection';
-import { User, Book } from '../models';
-import userSeeds from './userSeeds.json';
-import bookSeeds from './bookSeeds.json';
-import cleanDB from './cleanDB';
+const db = require('../config/connection.js');
+const { User, Book, BookClub } = require('../models/index.js');
+const userSeeds = require('./userSeeds.json');
+const bookSeeds = require('./bookSeeds.json');
+const bookClubSeeds = require('./bookClubSeeds.json');
+const cleanDB = require('./cleanDB.js');
 
 db.once('open', async () => {
   try {
@@ -10,15 +11,26 @@ db.once('open', async () => {
 
     await cleanDB('User', 'users');
 
-    await User.create(userSeeds);
+    await cleanDB('Bookclub', 'bookclubs');
 
-    for (let i = 0; i < bookSeeds.length; i++) {
-      const { _id } = await Book.create(bookSeeds[i]);
-      const updatedUser = await User.findOneAndUpdate(
-        { username: thoughtAuthor },
+    await User.create(userSeeds);
+    const books = await Book.insertMany(bookSeeds);
+    const bookClubs = await BookClub.insertMany(bookClubSeeds);
+
+    for (let i = 0; i < books.length; i++) {
+      await User.findOneAndUpdate(
         {
           $addToSet: {
-            thoughts: _id,
+            books: books[0]._id,
+          },
+        }
+      );
+    }
+    for (let i = 0; i < bookClubs.length; i++) {
+      await User.findOneAndUpdate(
+        {
+          $addToSet: {
+            bookClubs: bookClubs[0]._id,
           },
         }
       );

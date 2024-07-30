@@ -1,46 +1,27 @@
-type Book {
-    authors: String!
-    description: String!
-    bookId: String!
-    genre: String
-    publishedDate: Date
-    summary: String
-  }
 
-
-  [
+[
     {
-        "authors":
-        "description":
-        "bookId":
-    }
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "genre": "Fiction",
+        "year": 1925
+    },
     {
-        "authors":
-        "description":
-        "bookId":
-    }
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "genre": "Fiction",
+        "year": 1960
+    },
     {
-        "authors":
-        "description":
-        "bookId":
-    }
+        "title": "1984",
+        "author": "George Orwell",
+        "genre": "Fiction",
+        "year": 1949
+    },
     {
-        "authors":
-        "description":
-        "bookId":
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "genre": "Fiction",
+        "year": 1813
     }
-    {
-        "authors":
-        "description":
-        "bookId":
-    }
-    {
-        "authors":
-        "description":
-        "bookId":
-    }{
-        "authors":
-        "description":
-        "bookId":
-    }
-  ]
+]

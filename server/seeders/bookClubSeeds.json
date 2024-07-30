@@ -1,6 +1,40 @@
-type Bookclub {
-    name: String!
-    description: String!
-    members: [User]
-    savedBooks: [Book]
-}
+
+[
+    {
+        "name": "Sci-Fi Book Club",
+        "description": "A book club for science fiction enthusiasts.",
+        "location": "Virtual",
+        "meetingDay": "Every Wednesday",
+        "members": [
+            {
+                "name": "John Doe",
+                "email": "johndoe@example.com"
+            },
+            {
+                "name": "Jane Smith",
+                "email": "janesmith@example.com"
+            }
+        ]
+    },
+    {
+        "name": "Classic Literature Book Club",
+        "description": "A book club for lovers of classic literature.",
+        "location": "Local Library",
+        "meetingDay": "Every Monday",
+        "members": [
+            {
+                "name": "Alice Johnson",
+                "email": "alicejohnson@example.com"
+            },
+            {
+                "name": "Bob Williams",
+                "email": "bobwilliams@example.com"
+            },
+            {
+                "name": "Emily Davis",
+                "email": "emilydavis@example.com"
+            }
+        ]
+    }
+]
+
