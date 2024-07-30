@@ -1,46 +1,44 @@
-type Book {
-    authors: String!
-    description: String!
-    bookId: String!
-    genre: String
-    publishedDate: Date
-    summary: String
-  }
-
-
   [
     {
+        "title": "This Wretched Valley",     
+        "authors": "Jenny Kiefer",
+        "description":
+        "bookId":
+    }
+    {
+        "title:"        
         "authors":
         "description":
         "bookId":
     }
     {
+        "title:"        
         "authors":
         "description":
         "bookId":
     }
     {
+        "title:"        
         "authors":
         "description":
         "bookId":
     }
     {
+        "title:"        
         "authors":
         "description":
         "bookId":
     }
     {
+        "title:"        
+        "authors":
+        "description":
+        "bookId":
+    } {
+        "title:"        
         "authors":
         "description":
         "bookId":
     }
-    {
-        "authors":
-        "description":
-        "bookId":
-    }{
-        "authors":
-        "description":
-        "bookId":
-    }
+    
   ]

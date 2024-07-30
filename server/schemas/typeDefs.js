@@ -2,6 +2,7 @@ const typeDefs = `
     scalar Date
 
  type Book {
+    title: String!
     authors: String!
     description: String!
     bookId: String!
