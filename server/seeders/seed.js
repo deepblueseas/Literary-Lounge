@@ -11,7 +11,7 @@ db.once('open', async () => {
 
     await cleanDB('User', 'users');
 
-    // await cleanDB('Bookclub', 'bookclubs');
+    await cleanDB('Bookclub', 'bookclubs');
 
     await User.create(userSeeds);
     const books = await Book.insertMany(bookSeeds);
