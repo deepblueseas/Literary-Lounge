@@ -1,0 +1,46 @@
+type Book {
+    authors: String!
+    description: String!
+    bookId: String!
+    genre: String
+    publishedDate: Date
+    summary: String
+  }
+
+
+  [
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }
+    {
+        "authors":
+        "description":
+        "bookId":
+    }{
+        "authors":
+        "description":
+        "bookId":
+    }
+  ]
