@@ -3,11 +3,7 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [
-    react({
-      babel: {
-        presets: ['@babel/preset-react'],
-      },
-    }),
+    react(), 
   ],
   server: {
     port: 3000,
@@ -18,16 +14,6 @@ export default defineConfig({
         secure: false,
         changeOrigin: true,
       },
-    },
-  },
-  esbuild: {
-    jsxInject: `import React from 'react'`,
-    loader: 'jsx',
-    include: /src\/.*\.js$/,
-  },
-  build: {
-    rollupOptions: {
-      input: '/src/main.jsx', // Ensure this points to your main entry file
     },
   },
 });
