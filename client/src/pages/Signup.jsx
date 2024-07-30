@@ -1,16 +1,27 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
-import { useMutation } from '@apollo/client';
-import { ADD_PROFILE } from '../utils/mutations';
-
-import Auth from '../utils/auth';
+import { useState } from "react";
+import { Form, Link } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { ADD_PROFILE } from "../utils/mutations";
+import Auth from "../utils/auth";
+import {
+  Box,
+  Button,
+  Container,
+  FormControl,
+  FormLabel,
+  Input,
+  Text,
+  Heading,
+  VStack,
+  Alert,
+  AlertIcon,
+} from "@chakra-ui/react";
 
 const Signup = () => {
   const [formState, setFormState] = useState({
-    name: '',
-    email: '',
-    password: '',
+    name: "",
+    email: "",
+    password: "",
   });
   const [addProfile, { error, data }] = useMutation(ADD_PROFILE);
 
@@ -41,27 +52,34 @@ const Signup = () => {
   };
 
   return (
-    <main className="flex-row justify-center mb-4">
-      <div className="col-12 col-lg-10">
-        <div className="card">
-          <h4 className="card-header bg-dark text-light p-2">Sign Up</h4>
-          <div className="card-body">
-            {data ? (
-              <p>
-                Success! You may now head{' '}
-                <Link to="/">back to the homepage.</Link>
-              </p>
-            ) : (
-              <form onSubmit={handleFormSubmit}>
-                <input
-                  className="form-input"
-                  placeholder="Your username"
-                  name="name"
-                  type="text"
-                  value={formState.name}
-                  onChange={handleChange}
-                />
-                <input
+    <Container centerContent>
+      <Box w="100%" maxW="lg" p={6} boxShadow={"md"} borderRadius={"md"}>
+        <Heading as="h2" size="lg" mb={4} textAlign="center">
+          Sign Up
+        </Heading>
+        <VStack spacing={4}>
+          {data ? (
+            <Text>
+              Success! You may now head{" "}
+              <Link to="/">back to the homepage.</Link>
+            </Text>
+          ) : (
+            <form onSubmit={handleFormSubmit}>
+              <VStack spacing={4}>
+                <FormControl id="name" isRequired>
+                  <FormLabel>Username</FormLabel>
+                  <Input
+                    className="form-input"
+                    placeholder="Your username"
+                    name="name"
+                    type="text"
+                    value={formState.name}
+                    onChange={handleChange}
+                  />
+                </FormControl>
+                <FormControl id="email" isRequired>
+                  <FormLabel>Email</FormLabel>
+                <Input
                   className="form-input"
                   placeholder="Your email"
                   name="email"
@@ -69,7 +87,10 @@ const Signup = () => {
                   value={formState.email}
                   onChange={handleChange}
                 />
-                <input
+                </FormControl>
+                <FormControl id="password" isRequired>
+                  <FormLabel>Password</FormLabel>
+                <Input
                   className="form-input"
                   placeholder="******"
                   name="password"
@@ -77,25 +98,28 @@ const Signup = () => {
                   value={formState.password}
                   onChange={handleChange}
                 />
-                <button
-                  className="btn btn-block btn-info"
-                  style={{ cursor: 'pointer' }}
-                  type="submit"
+                </FormControl>
+                <Button
+                colorScheme="teal"
+                type="submit"
+                w="full"
+                mt={4}
                 >
                   Submit
-                </button>
-              </form>
-            )}
+                </Button>
+              </VStack>
+            </form>
+          )}
 
-            {error && (
-              <div className="my-3 p-3 bg-danger text-white">
-                {error.message}
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-    </main>
+          {error && (
+            <Alert status="error" mt={4} borderRadius="md">
+              <AlertIcon />
+              {error.message}
+              </Alert>
+          )}
+        </VStack>
+      </Box>
+    </Container>
   );
 };
 
