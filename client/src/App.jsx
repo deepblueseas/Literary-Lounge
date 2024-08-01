@@ -12,6 +12,8 @@ import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 
+import { ChakraProvider } from '@chakra-ui/react'
+
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -38,16 +40,18 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ApolloProvider client={client}>
-      <div className="flex-column justify-flex-start min-100-vh">
-        <Header />
-        <div className="container">
-          <Outlet />
-          <Rating />
+    <ChakraProvider>
+      <ApolloProvider client={client}>
+        <div className="flex-column justify-flex-start min-100-vh">
+          <Header />
+          <div className="container">
+            <Outlet />
+            <Rating />
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </ApolloProvider>
+      </ApolloProvider>
+    </ChakraProvider>
   );
 }
 
