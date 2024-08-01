@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Box, Flex, Heading, Text, Button, Container, Icon } from '@chakra-ui/react';
-import { BookIcon } from '@chakra-ui/icons'; // Import Chakra UI icon
-import Auth from '../../utils/auth';
+import { SearchIcon } from '@chakra-ui/icons'; // Import Chakra UI icon
+import Auth from '../utils/auth';
 
 const Header = () => {
   const logout = (event) => {
@@ -15,7 +15,7 @@ const Header = () => {
       <Container maxW="container.lg">
         <Flex direction="column" align="center" textAlign="center">
           <Flex align="center" mb={3}>
-            <Icon as={BookIcon} w={8} h={8} mr={3} />
+            <Icon as={SearchIcon} w={8} h={8} mr={3} />
             <Link to="/">
               <Heading as="h1" size="2xl">
                 Page Turners
