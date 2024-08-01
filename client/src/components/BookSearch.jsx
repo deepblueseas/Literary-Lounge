@@ -1,17 +1,7 @@
-// src/components/BookSearch.jsx
 import React, { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery } from '@apollo/client';
+import { SEARCH_BOOKS } from "../queries";
 
-// GraphQL query to search books
-const SEARCH_BOOKS = gql`
-  query searchBooks($query: String!) {
-    searchBooks(query: $query) {
-      title
-      author
-      description
-    }
-  }
-`;
 
 const BookSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');

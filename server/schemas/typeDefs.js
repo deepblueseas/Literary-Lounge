@@ -45,21 +45,25 @@ type Auth {
     user: User
   }
 
-type Query {
+ type Query {
     users: [User]
     user(username: String!): User
     books: [Book]
+    book(id: ID!): Book
     bookClubs: [Bookclub]
-    
+    bookClub(id: ID!): Bookclub
+    searchBooks(query: String!): [Book]
   }
 
-  type Mutation {
+ type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
+    addBook(title: String!, authors: String!, description: String!, genre: String, summary: String, publishedDate: Date): Book
+    deleteBook(id: ID!): Book
     saveBook(book: BookInput!): User
     removeBook(bookId: ID!): User
-    saveBookclub(book: BookclubInput!): User
-    removeBookclub(BookclubId: ID!): User
+    saveBookclub(bookclub: BookclubInput!): User
+    removeBookclub(bookclubId: ID!): User
   }
 `;
 
