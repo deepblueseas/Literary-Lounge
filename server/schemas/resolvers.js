@@ -1,7 +1,8 @@
-const { GraphQLScalarType, Kind } = require('graphql')
+const { GraphQLScalarType, Kind } = require('graphql');
 const { User, Book, BookClub } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
+const fetch = require('node-fetch');
 
 const dateScalar = new GraphQLScalarType({
   name: 'Date',
@@ -32,8 +33,23 @@ const resolvers = {
     books: async () => {
       return Book.find();
     },
+    book: async (_, { id }) => {
+      return Book.findById(id);
+    },
     bookClubs: async () => {
       return BookClub.find().populate('members').populate('savedBooks');
+    },
+    bookClub: async (_, { id }) => {
+      return BookClub.findById(id).populate('members').populate('savedBooks');
+    },
+    searchBooks: async (_, { query }) => {
+      const response = await fetch(`https://openlibrary.org/search.json?q=${query}`);
+      const data = await response.json();
+      return data.docs.map(book => ({
+        title: book.title,
+        authors: book.author_name?.[0],
+        description: book.first_sentence?.[0] || 'No description available',
+      }));
     },
   },
   Mutation: {
@@ -58,6 +74,17 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     },
+    addBook: async (_, { title, authors, description, genre, summary, publishedDate }) => {
+      return await Book.create({ title, authors, description, genre, summary, publishedDate });
+    },
+    deleteBook: async (_, { id }) => {
+      const book = await Book.findById(id);
+      if (book) {
+        await book.remove();
+        return book;
+      }
+      throw new Error('Book not found');
+    },
     saveBook: async (_, { book }, context) => {
       if (context.user) {
         return User.findByIdAndUpdate(
@@ -72,7 +99,7 @@ const resolvers = {
       if (context.user) {
         return User.findByIdAndUpdate(
           context.user._id,
-          { $pull: { savedBooks: { bookId } } },
+          { $pull: { savedBooks: { _id: bookId } } },
           { new: true }
         ).populate('savedBooks').populate('bookClubs');
       }
@@ -92,7 +119,7 @@ const resolvers = {
       if (context.user) {
         return User.findByIdAndUpdate(
           context.user._id,
-          { $pull: { bookClubs: { bookclubId } } },
+          { $pull: { bookClubs: { _id: bookclubId } } },
           { new: true }
         ).populate('savedBooks').populate('bookClubs');
       }
@@ -102,42 +129,3 @@ const resolvers = {
 };
 
 module.exports = resolvers;
-
-
-// api calls to open library
-// this will need to get integrated into the top part
-
-
-const fetch = require('node-fetch');
-
-const resolvers = {
-  Query: {
-    books: async () => await Book.findAll(),
-    book: async (_, { id }) => await Book.findByPk(id),
-    searchBooks: async (_, { query }) => {
-      const response = await fetch(`https://openlibrary.org/search.json?q=${query}`);
-      const data = await response.json();
-      return data.docs.map(book => ({
-        title: book.title,
-        author: book.author_name?.[0],
-        description: book.first_sentence?.[0] || 'No description available',
-      }));
-    },
-  },
-  Mutation: {
-    addBook: async (_, { title, author, description }) => {
-      return await Book.create({ title, author, description });
-    },
-    deleteBook: async (_, { id }) => {
-      const book = await Book.findByPk(id);
-      if (book) {
-        await book.destroy();
-        return book;
-      }
-      throw new Error('Book not found');
-    },
-  },
-};
-
-module.exports = resolvers;
-  
