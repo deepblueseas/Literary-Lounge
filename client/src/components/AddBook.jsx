@@ -73,6 +73,7 @@ const AddBook = () => {
       </FormControl>
       <Button type="submit" colorScheme='teal' mt={4}>Add Book</Button>
     </form>
+    </Box>
   );
 };
 
