@@ -87,3 +87,15 @@ export const QUERY_SINGLE_BOOKCLUB = gql`
     }
   }
 `;
+
+// see the BookSearch.jsx file
+// does this conflict with other queries in this file?
+export const SEARCH_BOOKS = gql`
+  query searchBooks($query: String!) {
+    searchBooks(query: $query) {
+      title
+      author
+      description
+    }
+  }
+`;

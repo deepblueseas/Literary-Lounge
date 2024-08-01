@@ -1,4 +1,4 @@
-const { GraphQLScalarType, Kind } = require('graphql')
+const { GraphQLScalarType, Kind } = require('graphql');
 const { User, Book, BookClub } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
@@ -55,6 +55,17 @@ const resolvers = {
       const user = await User.create({ username, email, password });
       const token = signToken(user);
       return { token, user };
+    },
+    addBook: async (_, { title, authors, description, genre, summary, publishedDate }) => {
+      return await Book.create({ title, authors, description, genre, summary, publishedDate });
+    },
+    deleteBook: async (_, { id }) => {
+      const book = await Book.findById(id);
+      if (book) {
+        await book.remove();
+        return book;
+      }
+      throw new Error('Book not found');
     },
     saveBook: async (_, { book }, context) => {
       if (context.user) {
