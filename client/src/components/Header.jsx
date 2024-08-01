@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook } from '@fortawesome/free-solid-svg-icons';
+import { Box, Flex, Heading, Text, Button, Container, Icon } from '@chakra-ui/react';
+import { BookIcon } from '@chakra-ui/icons'; // Import Chakra UI icon
 import Auth from '../../utils/auth';
 
 const Header = () => {
@@ -11,48 +11,50 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-info text-dark mb-4 py-3 display-flex align-center">
-      <div className="container flex-column justify-space-between-lg justify-center align-center text-center">
-        <div className="d-flex align-items-center">
-          <FontAwesomeIcon icon={faBook} size="2x" className="mr-3" />
-          <Link className="text-dark" to="/">
-            <h1 className="m-0" style={{ fontSize: '3rem' }}>
-              Page Turners
-            </h1>
-          </Link>
-        </div>
-        <p className="m-0" style={{ fontSize: '1.75rem', fontWeight: '700' }}>
-          Your gateway to book clubs and literary adventures.
-        </p>
-        <div>
-          {Auth.loggedIn() ? (
-            <>
-              <Link className="btn btn-lg btn-light m-2" to="/profile">
-                My Profile
-              </Link>
-              <Link className="btn btn-lg btn-primary m-2" to="/bookclubs">
-                Browse Book Clubs
-              </Link>
-              <button className="btn btn-lg btn-light m-2" onClick={logout}>
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <Link className="btn btn-lg btn-primary m-2" to="/login">
-                Login
-              </Link>
-              <Link className="btn btn-lg btn-light m-2" to="/signup">
-                Signup
-              </Link>
-              <Link className="btn btn-lg btn-primary m-2" to="/bookclubs">
-                Browse Book Clubs
-              </Link>
-            </>
-          )}
-        </div>
-      </div>
-    </header>
+    <Box bg="primary" color="white" mb={4} py={3}>
+      <Container maxW="container.lg">
+        <Flex direction="column" align="center" textAlign="center">
+          <Flex align="center" mb={3}>
+            <Icon as={BookIcon} w={8} h={8} mr={3} />
+            <Link to="/">
+              <Heading as="h1" size="2xl">
+                Page Turners
+              </Heading>
+            </Link>
+          </Flex>
+          <Text fontSize="xl" fontWeight="bold">
+            Your gateway to book clubs and literary adventures.
+          </Text>
+          <Flex mt={4}>
+            {Auth.loggedIn() ? (
+              <>
+                <Button as={Link} to="/profile" bg="primary" color="white" variant="outline" m={2}>
+                  My Profile
+                </Button>
+                <Button as={Link} to="/bookclubs" bg="primary" color="white" m={2}>
+                  Browse Book Clubs
+                </Button>
+                <Button bg="primary" color="white" variant="outline" m={2} onClick={logout}>
+                  Logout
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button as={Link} to="/login" bg="primary" color="white" m={2}>
+                  Login
+                </Button>
+                <Button as={Link} to="/signup" bg="secondary" color="white" variant="outline" m={2}>
+                  Signup
+                </Button>
+                <Button as={Link} to="/bookclubs" bg="primary" color="white" m={2}>
+                  Browse Book Clubs
+                </Button>
+              </>
+            )}
+          </Flex>
+        </Flex>
+      </Container>
+    </Box>
   );
 };
 
