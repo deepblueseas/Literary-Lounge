@@ -11,7 +11,6 @@ import { Outlet } from 'react-router-dom';
 import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Rating from './components/Rating';
 
 
 import { ChakraProvider } from '@chakra-ui/react'
@@ -48,7 +47,6 @@ function App() {
           <Header />
           <div className="container">
             <Outlet />
-            <Rating />
           </div>
           <Footer />
         </div>
