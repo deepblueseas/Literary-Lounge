@@ -102,3 +102,42 @@ const resolvers = {
 };
 
 module.exports = resolvers;
+
+
+// api calls to open library
+// this will need to get integrated into the top part
+
+
+const fetch = require('node-fetch');
+
+const resolvers = {
+  Query: {
+    books: async () => await Book.findAll(),
+    book: async (_, { id }) => await Book.findByPk(id),
+    searchBooks: async (_, { query }) => {
+      const response = await fetch(`https://openlibrary.org/search.json?q=${query}`);
+      const data = await response.json();
+      return data.docs.map(book => ({
+        title: book.title,
+        author: book.author_name?.[0],
+        description: book.first_sentence?.[0] || 'No description available',
+      }));
+    },
+  },
+  Mutation: {
+    addBook: async (_, { title, author, description }) => {
+      return await Book.create({ title, author, description });
+    },
+    deleteBook: async (_, { id }) => {
+      const book = await Book.findByPk(id);
+      if (book) {
+        await book.destroy();
+        return book;
+      }
+      throw new Error('Book not found');
+    },
+  },
+};
+
+module.exports = resolvers;
+  

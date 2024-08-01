@@ -1,19 +1,41 @@
-const { Schema, model } = require('mongoose');
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/connection");
 
-const bookSchema = new Schema({
-    title: {
-      type: String,
-      required: true,
-    },
-    author: {
-      type: String,
-      required: true,
-    },
-    genre: String,
-    publishedDate: Date,
-    summary: String,
-  });
-  
-  const Book = model('Book', bookSchema);
+class SQLBook extends Model{}
 
-  module.exports = Book;
+SQLBook.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        author: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        datePublished: {
+            type: DataTypes.DATE
+        },
+        summary: {
+            type: DataTypes.STRING,
+        },
+        rating: {
+            type: DataTypes.INTEGER
+        }
+    },
+    {
+        sequelize,
+        timestamps: false,
+        freezeTableName: true,
+        underscored: true,
+        modelName: "Book",
+      }
+);
+
+module.exports = SQLBook;

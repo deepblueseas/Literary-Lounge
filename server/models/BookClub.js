@@ -1,26 +1,33 @@
-const { Schema, model } = require('mongoose');
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/connection");
 
-const bookclubSchema = new Schema({
-    name: {
-      type: String,
-      required: true,
+class Bookclub extends Model{}
+
+Bookclub.init(
+    {
+        id: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+            primaryKey: true,
+            autoIncrement: true,
+        },
+        clubName: {
+            type: DataTypes.STRING
+        },
+        description: {
+            type: DataTypes.STRING
+        },
+        location: {
+            type: DataTypes.STRING
+        }
     },
-    description: String,
-    members: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
-    books: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Book',
-      },
-    ],
-  });
-  
-  const Bookclub = model('Bookclub', bookclubSchema);
+    {
+        sequelize,
+        timestamps: false,
+        freezeTableName: true,
+        underscored: true,
+        modelName: "Bookclub",
+      }
+);
 
-  module.exports = Bookclub;
-  
+module.exports = Bookclub;

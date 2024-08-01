@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_USER } from '../mutations';
 import { GET_USERS } from '../queries';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  Box,
+  Heading
+} from '@chakra-ui/react';
 
 const AddUser = () => {
   const [username, setUsername] = useState('');
@@ -21,28 +29,39 @@ const AddUser = () => {
   };
 
   return (
+    <Box maxWidth="500px" mx="auto" mt={5} p={5} borderWidth="1px" borderRadius="lg">
+    <Heading as="h2" size="lg" mb={5}>Add User</Heading>
     <form onSubmit={handleSubmit}>
-      <h2>Add User</h2>
-      <input
+      <FormControl id='username' mb={3}>
+        <FormLabel>Username</FormLabel>
+      <Input
         type="text"
         placeholder="Username"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
       />
-      <input
+      </FormControl>
+      <FormControl id='email' mb={3}>
+        <FormLabel>Email</FormLabel>
+      <Input
         type="email"
         placeholder="Email"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
       />
-      <input
+      </FormControl>
+      <FormControl id='password' mb={3}>
+        <FormLabel>Password</FormLabel>
+      <Input
         type="password"
         placeholder="Password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
       />
-      <button type="submit">Add User</button>
+      </FormControl>
+      <Button type="submit" colorScheme='teal' mt={4}>Add User</Button>
     </form>
+    </Box>
   );
 };
 
