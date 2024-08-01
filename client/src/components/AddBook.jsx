@@ -2,16 +2,6 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_BOOK } from '../mutations';
 import { GET_BOOKS } from '../queries';
-import {
-  FormControl,
-  FormLabel,
-  Input,
-  Textarea,
-  Button,
-  Box,
-  Heading
-} from '@chakra-ui/react'
-
 
 const AddBook = () => {
   const [title, setTitle] = useState('');
@@ -83,7 +73,6 @@ const AddBook = () => {
       </FormControl>
       <Button type="submit" colorScheme='teal' mt={4}>Add Book</Button>
     </form>
-    </Box>
   );
 };
 

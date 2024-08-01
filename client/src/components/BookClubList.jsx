@@ -14,7 +14,6 @@ import {
 
 const BookClubList = () => {
   const { loading, error, data } = useQuery(GET_BOOKCLUBS);
-
   if (loading) return <Spinner size="xl" />;
   if (error) return (
     <Alert status='error'>
