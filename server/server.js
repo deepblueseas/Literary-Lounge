@@ -1,5 +1,5 @@
-require ('dotenv').config()
-const  express = require('express');
+require('dotenv').config();
+const express = require('express');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
@@ -35,7 +35,8 @@ const startApolloServer = async () => {
     });
   }
 
-  db.once('open', () => {
+  // Synchronize models with the database
+  db.sync({force:true}).then(() => {
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
       console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);

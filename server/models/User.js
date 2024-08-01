@@ -1,38 +1,56 @@
-const { Schema, model } = require('mongoose');
+const { Model, DataTypes } = require("sequelize");
+const sequelize = require("../config/connection");
+const bcryptjs = require('bcryptjs');
 
-const userSchema = new Schema(
+class SQLUser extends Model {}
+
+SQLUser.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      primaryKey: true,
+      autoIncrement: true,
+  },
     username: {
-      type: String,
-      unique: true,
+      type: DataTypes.STRING,
       required: true,
-      trim: true
+      unique: true,
+      trim: true,
     },
     email: {
-      type: String,
+      type: DataTypes.STRING,
       required: true,
       unique: true,
-      match: [/.+@.+\..+/, 'Must match a valid email address']
+      validate: {
+        isEmail: true,
+      },
     },
     password: {
-      type: String,
+      type: DataTypes.STRING,
       required: true,
+      validate: {
+        len: [5, Infinity],
+      },
     },
-    books: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Book'
-      }
-    ],
   },
   {
-    toJSON: {
-      virtuals: true
-    },
-    id: false
+    sequelize,
+    modelName: "SQLUser"
   }
 );
 
-const User = model('User', userSchema);
+// set up pre-save middleware to create password
+SQLUser.beforeSave(async (user) => {
+  if (user.changed("password")) {
+    const saltRounds = 10;
+    user.password = await bcryptjs.hash(user.password, saltRounds);
+  }
+});
 
-module.exports = User;
+// compare the incoming password with the hashed password
+SQLUser.prototype.isCorrectPassword = async function (password) {
+  return bcryptjs.compare(password, this.password);
+};
+
+module.exports = SQLUser;
