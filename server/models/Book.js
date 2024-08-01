@@ -34,7 +34,7 @@ SQLBook.init(
         timestamps: false,
         freezeTableName: true,
         underscored: true,
-        modelName: "SQLBook",
+        modelName: "Book",
       }
 );
 

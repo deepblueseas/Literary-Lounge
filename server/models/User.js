@@ -2,9 +2,9 @@ const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/connection");
 const bcryptjs = require('bcryptjs');
 
-class SQLUser extends Model {}
+class User extends Model {}
 
-SQLUser.init(
+User.init(
   {
     id: {
       type: DataTypes.INTEGER,
@@ -36,12 +36,12 @@ SQLUser.init(
   },
   {
     sequelize,
-    modelName: "SQLUser"
+    modelName: "User"
   }
 );
 
 // set up pre-save middleware to create password
-SQLUser.beforeSave(async (user) => {
+User.beforeSave(async (user) => {
   if (user.changed("password")) {
     const saltRounds = 10;
     user.password = await bcryptjs.hash(user.password, saltRounds);
@@ -49,8 +49,8 @@ SQLUser.beforeSave(async (user) => {
 });
 
 // compare the incoming password with the hashed password
-SQLUser.prototype.isCorrectPassword = async function (password) {
+User.prototype.isCorrectPassword = async function (password) {
   return bcryptjs.compare(password, this.password);
 };
 
-module.exports = SQLUser;
+module.exports = User;
