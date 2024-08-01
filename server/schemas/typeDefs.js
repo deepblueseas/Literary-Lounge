@@ -50,6 +50,7 @@ type Query {
     user(username: String!): User
     books: [Book]
     bookClubs: [Bookclub]
+    
   }
 
   type Mutation {
