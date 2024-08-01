@@ -2,6 +2,15 @@ import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_BOOKCLUB } from '../mutations';
 import { GET_BOOKCLUBS } from '../queries';
+import {
+  FormControl,
+  FormLabel,
+  Input,
+  Textarea,
+  Button,
+  Box,
+  Heading
+} from '@chakra-ui/react';
 
 const AddBookClub = () => {
   const [name, setName] = useState('');
@@ -19,21 +28,29 @@ const AddBookClub = () => {
   };
 
   return (
+    <Box maxWidth="500px" mx="auto" mt={5} p={5} borderWidth="1px" borderRadius="lg">
+    <Heading as="h2" size="lg" mb={5}>Add Book Club</Heading>
     <form onSubmit={handleSubmit}>
-      <h2>Add Book Club</h2>
-      <input
+      <FormControl id='name' mb={3}>
+        <FormLabel>Name</FormLabel>
+      <Input
         type="text"
         placeholder="Name"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <textarea
+      </FormControl>
+      <FormControl id='description' mb={3}>
+        <FormLabel>Description</FormLabel>
+      <Textarea
         placeholder="Description"
         value={description}
         onChange={(e) => setDescription(e.target.value)}
       />
-      <button type="submit">Add Book Club</button>
+      </FormControl>
+      <Button type="submit" colorScheme='teal' mt={4}>Add Book Club</Button>
     </form>
+    </Box>
   );
 };
 
