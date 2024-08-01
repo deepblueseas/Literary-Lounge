@@ -1,5 +1,5 @@
-require ('dotenv').config()
-const  express = require('express');
+require('dotenv').config();
+const express = require('express');
 const { ApolloServer } = require('@apollo/server');
 const { expressMiddleware } = require('@apollo/server/express4');
 const path = require('path');
@@ -17,6 +17,7 @@ const server = new ApolloServer({
 
 // Create a new instance of an Apollo server with the GraphQL schema
 const startApolloServer = async () => {
+  
   await server.start();
 
   app.use(express.urlencoded({ extended: false }));
@@ -27,20 +28,22 @@ const startApolloServer = async () => {
   }));
 
   if (process.env.NODE_ENV === 'production') {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
+    app.use(express.static(path.join(__dirname, '../client')));
 
     app.get('*', (_, res) => {
-      res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+      res.sendFile(path.join(__dirname, '../client/index.html'));
     });
   }
 
-  db.once('open', () => {
+  // Synchronize models with the database
+  db.sync({force:true}).then(() => {
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
       console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
     });
   });
 };
+
 
 // Call the async function to start the server
 startApolloServer();
