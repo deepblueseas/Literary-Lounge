@@ -1,9 +1,10 @@
 const { GraphQLScalarType, Kind } = require('graphql');
-const { User, Book, BookClub } = require('../models');
+const { User, Book, Bookclub } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 const fetch = require('node-fetch');
 
+// Custom Date Scalar Type
 const dateScalar = new GraphQLScalarType({
   name: 'Date',
   description: 'Custom Date scalar type',
@@ -25,22 +26,25 @@ const resolvers = {
   Date: dateScalar,
   Query: {
     users: async () => {
-      return User.find().populate('savedBooks').populate('bookClubs');
+      return User.findAll({ include: ['savedBooks', 'bookClubs'] });
     },
     user: async (_, { username }) => {
-      return User.findOne({ username }).populate('savedBooks').populate('bookClubs');
+      return User.findOne({
+        where: { username },
+        include: ['savedBooks', 'bookClubs']
+      });
     },
     books: async () => {
-      return Book.find();
+      return Book.findAll();
     },
     book: async (_, { id }) => {
-      return Book.findById(id);
+      return Book.findByPk(id);
     },
     bookClubs: async () => {
-      return BookClub.find().populate('members').populate('savedBooks');
+      return Bookclub.findAll({ include: ['members', 'savedBooks'] });
     },
     bookClub: async (_, { id }) => {
-      return BookClub.findById(id).populate('members').populate('savedBooks');
+      return Bookclub.findByPk(id, { include: ['members', 'savedBooks'] });
     },
     searchBooks: async (_, { query }) => {
       const response = await fetch(`https://openlibrary.org/search.json?q=${query}`);
@@ -54,7 +58,7 @@ const resolvers = {
   },
   Mutation: {
     login: async (_, { email, password }) => {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ where: { email } });
 
       if (!user) {
         throw new AuthenticationError('Incorrect credentials');
@@ -78,50 +82,42 @@ const resolvers = {
       return await Book.create({ title, authors, description, genre, summary, publishedDate });
     },
     deleteBook: async (_, { id }) => {
-      const book = await Book.findById(id);
+      const book = await Book.findByPk(id);
       if (book) {
-        await book.remove();
+        await book.destroy();
         return book;
       }
       throw new Error('Book not found');
     },
-    saveBook: async (_, { book }, context) => {
+    saveBook: async (_, { bookId }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate(
-          context.user._id,
-          { $addToSet: { savedBooks: book } },
-          { new: true }
-        ).populate('savedBooks').populate('bookClubs');
+        const user = await User.findByPk(context.user.id);
+        await user.addSavedBooks(bookId); 
+        return user.reload({ include: ['savedBooks', 'bookClubs'] });
       }
       throw new AuthenticationError('You need to be logged in!');
     },
     removeBook: async (_, { bookId }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate(
-          context.user._id,
-          { $pull: { savedBooks: { _id: bookId } } },
-          { new: true }
-        ).populate('savedBooks').populate('bookClubs');
+        const user = await User.findByPk(context.user.id);
+        await user.removeSavedBooks(bookId); 
+        return user.reload({ include: ['savedBooks', 'bookClubs'] });
       }
       throw new AuthenticationError('You need to be logged in!');
     },
-    saveBookclub: async (_, { bookclub }, context) => {
+    saveBookclub: async (_, { bookclubId }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate(
-          context.user._id,
-          { $addToSet: { bookClubs: bookclub } },
-          { new: true }
-        ).populate('savedBooks').populate('bookClubs');
+        const user = await User.findByPk(context.user.id);
+        await user.addBookclubs(bookclubId);
+        return user.reload({ include: ['savedBooks', 'bookClubs'] });
       }
       throw new AuthenticationError('You need to be logged in!');
     },
     removeBookclub: async (_, { bookclubId }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate(
-          context.user._id,
-          { $pull: { bookClubs: { _id: bookclubId } } },
-          { new: true }
-        ).populate('savedBooks').populate('bookClubs');
+        const user = await User.findByPk(context.user.id);
+        await user.removeBookclubs(bookclubId); 
+        return user.reload({ include: ['savedBooks', 'bookClubs'] });
       }
       throw new AuthenticationError('You need to be logged in!');
     },
