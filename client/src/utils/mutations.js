@@ -176,4 +176,3 @@ export const MUTATION_REMOVE_BOOK_FROM_LIST = gql`
     }
   }
 `;
->>>>>>> 1282929 (Updated queries and resolvers.)
