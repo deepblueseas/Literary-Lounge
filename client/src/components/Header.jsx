@@ -18,7 +18,7 @@ const Header = () => {
             <Icon as={SearchIcon} w={8} h={8} mr={3} />
             <Link to="/">
               <Heading as="h1" size="2xl">
-                Page Turners
+                The Literary Lounge
               </Heading>
             </Link>
           </Flex>

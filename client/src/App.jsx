@@ -1,3 +1,5 @@
+import React from 'react';
+import { ChakraProvider, Box, Container, Flex } from '@chakra-ui/react'
 import './App.css';
 import {
   ApolloClient,
@@ -8,10 +10,13 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { Outlet } from 'react-router-dom';
 
-import React from 'react';
+
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Rating from './components/Rating';
+
+import customTheme from './theme';
+
+
 
 
 import { ChakraProvider } from '@chakra-ui/react'
@@ -43,17 +48,21 @@ const client = new ApolloClient({
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={customTheme}>
       <ApolloProvider client={client}>
-        <div className="flex-column justify-flex-start min-100-vh">
-          <Header />
-          <div className="container">
+        <Flex direction="column" minH="100vh" bg="gray.100" color="gray.800">
+          <Box as='header' w="100%" bg="primary.500" p={4}>
+            <Header /> 
+          </Box>
+          <Container as="main" flex="1" centerContent>
             <Outlet />
             <SearchBar />
-            <Rating />
-          </div>
-          <Footer />
-        </div>
+          </Container>
+          <Box as='footer' w="100%" bg="primary.500" p={4}>
+            <Footer />
+          </Box>
+        </Flex>
+
       </ApolloProvider>
     </ChakraProvider>
   );

@@ -1,11 +1,10 @@
 const typeDefs = `
-    scalar Date
+  scalar Date
 
- type Book {
+  type Book {
     title: String!
     authors: String!
     description: String!
-    bookId: String!
     genre: String
     summary: String
     publishedDate: Date
@@ -18,16 +17,18 @@ const typeDefs = `
     savedBooks: [Book]
     bookClubs: [Bookclub]
   }
-type Bookclub {
+
+  type Bookclub {
     name: String!
     description: String!
     members: [User]
     savedBooks: [Book]
-}
-    input BookInput {
+  }
+
+  input BookInput {
+    title: String!
     authors: String!
     description: String!
-    bookId: String!
     genre: String
     summary: String
     publishedDate: Date
@@ -40,12 +41,12 @@ type Bookclub {
     savedBooks: [BookInput]
   }
 
-type Auth {
+  type Auth {
     token: ID!
     user: User
   }
 
- type Query {
+  type Query {
     users: [User]
     user(username: String!): User
     books: [Book]
@@ -55,14 +56,14 @@ type Auth {
     searchBooks(query: String!): [Book]
   }
 
- type Mutation {
+  type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
     addBook(title: String!, authors: String!, description: String!, genre: String, summary: String, publishedDate: Date): Book
     deleteBook(id: ID!): Book
-    saveBook(book: BookInput!): User
+    saveBook(bookId: ID!): User
     removeBook(bookId: ID!): User
-    saveBookclub(bookclub: BookclubInput!): User
+    saveBookclub(bookclubId: ID!): User
     removeBookclub(bookclubId: ID!): User
   }
 `;
