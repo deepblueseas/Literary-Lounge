@@ -13,7 +13,9 @@ import { Outlet } from 'react-router-dom';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
+
 import customTheme from './theme';
+
 
 
 
@@ -52,11 +54,13 @@ function App() {
           </Box>
           <Container as="main" flex="1" centerContent>
             <Outlet />
+
           </Container>
           <Box as='footer' w="100%" bg="primary.500" p={4}>
             <Footer />
           </Box>
         </Flex>
+
       </ApolloProvider>
     </ChakraProvider>
   );
