@@ -1,0 +1,57 @@
+[
+    {
+        "title": "The Great Gatsby",
+        "author": "F. Scott Fitzgerald",
+        "genre": "Fiction",
+        "year": 1925
+    },
+    {
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "genre": "Fiction",
+        "year": 1960
+    },
+    {
+        "title": "1984",
+        "author": "George Orwell",
+        "genre": "Fiction",
+        "year": 1949
+    },  
+
+    {
+        "title": "Pride and Prejudice",
+        "author": "Jane Austen",
+        "genre": "Fiction",
+        "year": 1813
+    },
+    {
+        "title": "To Kill a Mockingbird",
+        "author": "Harper Lee",
+        "genre": "Fiction",
+        "year": 1960
+    },
+    {
+        "title": "The Catcher in the Rye",
+        "author": "J.D. Salinger",
+        "genre": "Fiction",
+        "year": 1951
+    },
+    {
+        "title": "Moby-Dick",
+        "author": "Herman Melville",
+        "genre": "Fiction",
+        "year": 1851
+    },
+    {
+        "title": "The Lord of the Rings",
+        "author": "J.R.R. Tolkien",
+        "genre": "Fantasy",
+        "year": 1954
+    },
+    {
+        "title": "Harry Potter and the Sorcerer's Stone",
+        "author": "J.K. Rowling",
+        "genre": "Fantasy",
+        "year": 1997
+    }
+]

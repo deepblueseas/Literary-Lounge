@@ -3,42 +3,40 @@ const { User, Book, BookClub } = require('../models');
 const { AuthenticationError } = require('apollo-server-express');
 const { signToken } = require('../utils/auth');
 
-const dateScalar = new GraphQLScalarType({
-  name: 'Date',
-  description: 'Custom Date scalar type',
-  parseValue(value) {
-    return new Date(value); // value from the client
-  },
-  serialize(value) {
-    return value.toISOString(); // value sent to the client
-  },
-  parseLiteral(ast) {
-    if (ast.kind === Kind.STRING) {
-      return new Date(ast.value); // ast value is always in string format
-    }
-    return null;
-  },
-});
-
 const resolvers = {
-  Date: dateScalar,
   Query: {
     users: async () => {
-      return User.find().populate('savedBooks').populate('bookClubs');
+      return User.findAll({
+        include: [
+          { model: Book, as: 'savedBooks' },
+          { model: BookClub, as: 'bookClubs' }
+        ]
+      });
     },
     user: async (_, { username }) => {
-      return User.findOne({ username }).populate('savedBooks').populate('bookClubs');
+      return User.findOne({
+        where: { username },
+        include: [
+          { model: Book, as: 'savedBooks' },
+          { model: BookClub, as: 'bookClubs' }
+        ]
+      });
     },
     books: async () => {
-      return Book.find();
+      return Book.findAll();
     },
     bookClubs: async () => {
-      return BookClub.find().populate('members').populate('savedBooks');
+      return BookClub.findAll({
+        include: [
+          { model: User, as: 'members' },
+          { model: Book, as: 'savedBooks' }
+        ]
+      });
     },
   },
   Mutation: {
     login: async (_, { email, password }) => {
-      const user = await User.findOne({ email });
+      const user = await User.findOne({ where: { email } });
 
       if (!user) {
         throw new AuthenticationError('Incorrect credentials');
@@ -60,41 +58,65 @@ const resolvers = {
     },
     saveBook: async (_, { book }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate(
-          context.user._id,
-          { $addToSet: { savedBooks: book } },
-          { new: true }
-        ).populate('savedBooks').populate('bookClubs');
+        const user = await User.findByPk(context.user._id);
+        if (user) {
+          await user.addSavedBook(book);
+          await user.reload({
+            include: [
+              { model: Book, as: 'savedBooks' },
+              { model: BookClub, as: 'bookClubs' }
+            ]
+          });
+          return user;
+        }
       }
       throw new AuthenticationError('You need to be logged in!');
     },
     removeBook: async (_, { bookId }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate(
-          context.user._id,
-          { $pull: { savedBooks: { bookId } } },
-          { new: true }
-        ).populate('savedBooks').populate('bookClubs');
+        const user = await User.findByPk(context.user._id);
+        if (user) {
+          await user.removeSavedBook(bookId);
+          await user.reload({
+            include: [
+              { model: Book, as: 'savedBooks' },
+              { model: BookClub, as: 'bookClubs' }
+            ]
+          });
+          return user;
+        }
       }
       throw new AuthenticationError('You need to be logged in!');
     },
     saveBookclub: async (_, { bookclub }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate(
-          context.user._id,
-          { $addToSet: { bookClubs: bookclub } },
-          { new: true }
-        ).populate('savedBooks').populate('bookClubs');
+        const user = await User.findByPk(context.user._id);
+        if (user) {
+          await user.addBookClub(bookclub);
+          await user.reload({
+            include: [
+              { model: Book, as: 'savedBooks' },
+              { model: BookClub, as: 'bookClubs' }
+            ]
+          });
+          return user;
+        }
       }
       throw new AuthenticationError('You need to be logged in!');
     },
     removeBookclub: async (_, { bookclubId }, context) => {
       if (context.user) {
-        return User.findByIdAndUpdate(
-          context.user._id,
-          { $pull: { bookClubs: { bookclubId } } },
-          { new: true }
-        ).populate('savedBooks').populate('bookClubs');
+        const user = await User.findByPk(context.user._id);
+        if (user) {
+          await user.removeBookClub(bookclubId);
+          await user.reload({
+            include: [
+              { model: Book, as: 'savedBooks' },
+              { model: BookClub, as: 'bookClubs' }
+            ]
+          });
+          return user;
+        }
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -108,36 +130,36 @@ module.exports = resolvers;
 // this will need to get integrated into the top part
 
 
-const fetch = require('node-fetch');
+// const fetch = require('node-fetch');
 
-const resolvers = {
-  Query: {
-    books: async () => await Book.findAll(),
-    book: async (_, { id }) => await Book.findByPk(id),
-    searchBooks: async (_, { query }) => {
-      const response = await fetch(`https://openlibrary.org/search.json?q=${query}`);
-      const data = await response.json();
-      return data.docs.map(book => ({
-        title: book.title,
-        author: book.author_name?.[0],
-        description: book.first_sentence?.[0] || 'No description available',
-      }));
-    },
-  },
-  Mutation: {
-    addBook: async (_, { title, author, description }) => {
-      return await Book.create({ title, author, description });
-    },
-    deleteBook: async (_, { id }) => {
-      const book = await Book.findByPk(id);
-      if (book) {
-        await book.destroy();
-        return book;
-      }
-      throw new Error('Book not found');
-    },
-  },
-};
+// const resolvers = {
+//   Query: {
+//     books: async () => await Book.findAll(),
+//     book: async (_, { id }) => await Book.findByPk(id),
+//     searchBooks: async (_, { query }) => {
+//       const response = await fetch(`https://openlibrary.org/search.json?q=${query}`);
+//       const data = await response.json();
+//       return data.docs.map(book => ({
+//         title: book.title,
+//         author: book.author_name?.[0],
+//         description: book.first_sentence?.[0] || 'No description available',
+//       }));
+//     },
+//   },
+//   Mutation: {
+//     addBook: async (_, { title, author, description }) => {
+//       return await Book.create({ title, author, description });
+//     },
+//     deleteBook: async (_, { id }) => {
+//       const book = await Book.findByPk(id);
+//       if (book) {
+//         await book.destroy();
+//         return book;
+//       }
+//       throw new Error('Book not found');
+//     },
+//   },
+// };
 
-module.exports = resolvers;
+// module.exports = resolvers;
   
