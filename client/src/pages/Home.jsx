@@ -1,10 +1,11 @@
 import React from 'react';
+import SearchBar from '../components/SearchForm';
 
 const Home = () => {
   return (
     <div>
       <h1>Welcome to the Home Page!</h1>
-      {/* Add more content as needed */}
+      <SearchBar />
     </div>
   );
 };

@@ -15,6 +15,7 @@ import Rating from './components/Rating';
 
 
 import { ChakraProvider } from '@chakra-ui/react'
+import SearchBar from './components/SearchForm';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -47,6 +48,7 @@ function App() {
         <div className="flex-column justify-flex-start min-100-vh">
           <Header />
           <div className="container">
+            <SearchBar />
             <Outlet />
             <Rating />
           </div>
