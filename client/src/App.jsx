@@ -15,11 +15,6 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 
 import customTheme from './theme';
-
-
-
-
-import { ChakraProvider } from '@chakra-ui/react'
 import SearchBar from './components/SearchForm';
 
 // Construct our main GraphQL API endpoint
