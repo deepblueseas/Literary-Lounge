@@ -1,8 +1,9 @@
 const db = require('../config/connection.js');
-const { User, Book, Bookclub } = require('../models/index.js');
+const { User, Book, Bookclub, UserBookclub } = require('../models/index.js');
 const userSeeds = require('./userSeeds.js');
 const bookSeeds = require('./bookSeeds.json');
 const bookClubSeeds = require('./bookClubSeeds.json');
+const userBookclubSeeds = require("./userBookclubs.json");
 const sequelize = require('../config/connection');
 
 const seedDatabase = async () => {
@@ -20,6 +21,10 @@ const seedDatabase = async () => {
     });
 
     await Bookclub.bulkCreate(bookClubSeeds, {
+      individualHooks: true,
+      returning: true,
+    });
+    await UserBookclub.bulkCreate(userBookclubSeeds, {
       individualHooks: true,
       returning: true,
     });

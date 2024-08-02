@@ -36,7 +36,7 @@ const startApolloServer = async () => {
   }
 
   // Synchronize models with the database
-  db.sync({force:true}).then(() => {
+  db.sync({force:false}).then(() => {
     app.listen(PORT, () => {
       console.log(`API server running on port ${PORT}!`);
       console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);

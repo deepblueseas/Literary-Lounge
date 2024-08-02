@@ -2,6 +2,7 @@ const typeDefs = `
   scalar Date
 
   type Book {
+    id: ID
     title: String!
     authors: String!
     description: String!
@@ -11,6 +12,7 @@ const typeDefs = `
   }
 
   type User {
+    id: ID
     username: String!
     email: String!
     password: String!
@@ -19,6 +21,7 @@ const typeDefs = `
   }
 
   type Bookclub {
+    id: ID
     name: String!
     description: String!
     members: [User]

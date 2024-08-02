@@ -26,12 +26,12 @@ const resolvers = {
   Date: dateScalar,
   Query: {
     users: async () => {
-      return User.findAll({ include: ['savedBooks', 'bookClubs'] });
+      return await User.findAll({ include: [Bookclub] });
     },
     user: async (_, { username }) => {
       return User.findOne({
         where: { username },
-        include: ['savedBooks', 'bookClubs']
+        include: [Book, Bookclub]
       });
     },
     books: async () => {
