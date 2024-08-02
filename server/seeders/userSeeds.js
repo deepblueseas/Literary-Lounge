@@ -34,11 +34,12 @@ const userData = [
   }
 ];
 
-const userSeeds = async () => {
+const userSeeds = () => {
   // Hash the passwords before seeding
   for (let user of userData) {
-    user.password = await bcrypt.hash(user.password, 10);
+    user.password = bcrypt.hashSync(user.password, 10);
   }
+  return userData
 };
 
-module.exports = userSeeds;
+module.exports = userSeeds(userData);
