@@ -48,8 +48,8 @@ function App() {
         <div className="flex-column justify-flex-start min-100-vh">
           <Header />
           <div className="container">
-            <SearchBar />
             <Outlet />
+            <SearchBar />
             <Rating />
           </div>
           <Footer />
