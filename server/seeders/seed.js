@@ -1,50 +1,35 @@
 const db = require('../config/connection.js');
-const { User, Book, BookClub } = require('../models/index.js');
-const userSeeds = require('./userSeeds.json');
+const { User, Book, Bookclub } = require('../models/index.js');
+const userSeeds = require('./userSeeds.js');
 const bookSeeds = require('./bookSeeds.json');
 const bookClubSeeds = require('./bookClubSeeds.json');
-const cleanDB = require('./cleanDB.js');
+const sequelize = require('../config/connection');
 
-db.once('open', async () => {
+const seedDatabase = async () => {
   try {
-    await cleanDB('Book', 'books');
+    await sequelize.sync({ force: true });
 
-    await cleanDB('User', 'users');
+    await User.bulkCreate(userSeeds, {
+      individualHooks: true,
+      returning: true,
+    });
 
-    await cleanDB('Bookclub', 'bookclubs');
-  } catch (e){
+    await Book.bulkCreate(bookSeeds, {
+      individualHooks: true,
+      returning: true,
+    });
 
+    await Bookclub.bulkCreate(bookClubSeeds, {
+      individualHooks: true,
+      returning: true,
+    });
+
+    console.log('Database seeded successfully');
+  } catch (error) {
+    console.error('Error seeding database:', error);
+  } finally {
+    process.exit(0);
   }
-  try {
-    
+};
 
-    await User.create(userSeeds);
-    const books = await Book.insertMany(bookSeeds);
-    const bookClubs = await BookClub.insertMany(bookClubSeeds);
-
-    for (let i = 0; i < books.length; i++) {
-      await User.findOneAndUpdate(
-        {
-          $addToSet: {
-            books: books[0]._id,
-          },
-        }
-      );
-    }
-    for (let i = 0; i < bookClubs.length; i++) {
-      await User.findOneAndUpdate(
-        {
-          $addToSet: {
-            bookClubs: bookClubs[0]._id,
-          },
-        }
-      );
-    }
-  } catch (err) {
-    console.error(err);
-    process.exit(1);
-  }
-
-  console.log('all done!');
-  process.exit(0);
-});
+seedDatabase();
