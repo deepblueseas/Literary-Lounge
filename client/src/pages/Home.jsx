@@ -1,5 +1,4 @@
 import React from 'react';
-import SearchBar from '../components/SearchForm';
 
 const Home = () => {
   return (
