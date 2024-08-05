@@ -1,0 +1,28 @@
+export const LOGIN_USER = 'LOGIN_USER';
+
+export const ADD_USER = 'ADD_USER';
+
+export const ADD_BOOK = 'ADD_BOOK';
+
+export const UPDATE_USER = 'UPDATE_USER';
+
+export const UPDATE_BOOK = 'UPDATE_BOOK';
+
+export const DELETE_USER = 'DELETE_USER';
+
+export const DELETE_BOOK = 'DELETE_BOOK';
+
+export const ADD_BOOK_TO_USER = 'ADD_BOOK_TO_USER';
+
+export const REMOVE_BOOK_FROM_USER = 'REMOVE_BOOK_FROM_USER';
+
+export const ADD_USER_TO_BOOKCLUB = 'ADD_USER_TO_BOOKCLUB';
+
+export const REMOVE_USER_FROM_BOOKCLUB = 'REMOVE_USER_FROM_BOOKCLUB';
+
+export const UPDATE_BOOK_LIST = 'UPDATE_BOOK_LIST';
+
+export const ADD_BOOK_TO_LIST = 'ADD_BOOK_TO_LIST';
+
+export const REMOVE_BOOK_FROM_LIST = 'REMOVE_BOOK_FROM_LIST';
+

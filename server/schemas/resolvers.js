@@ -135,13 +135,13 @@ const resolvers = {
       }
     },
 
-    addBook: async (_, { title, author, summary, genre, rating, datePublished }) => {
-      return await Book.create({ title, author, genre, summary, rating, datePublished 
-      } catch (error) {
-        console.error('Error adding book:', error);
-        throw new Error('Error adding book');
+    me: async (parent, args, context) => {
+      if (context.user) {
+        return User.findById(context.user._id).populate('savedBooks').populate('bookClubs');
       }
-    });
+      throw new AuthenticationError('Not logged in');
+    },
+  },
 
     addBook: async (_, { title, authors, description, genre, summary, publishedDate }) => {
       try {
