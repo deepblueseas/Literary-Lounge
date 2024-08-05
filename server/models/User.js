@@ -35,6 +35,16 @@ User.init(
     },
   },
   {
+    hooks: {
+      beforeCreate: async (newUserData) => {
+        newUserData.password = await bcryptjs.hash(newUserData.password, 10);
+        return newUserData;
+      },
+      beforeUpdate: async (updatedUserData) => {
+        updatedUserData.password = await bcryptjs.hash(updatedUserData.password, 10);
+        return updatedUserData;
+      },
+    },
     sequelize,
     timestamps: false,
     freezeTableName: true,
@@ -42,14 +52,6 @@ User.init(
     modelName: 'User',
   }
 );
-
-// set up pre-save middleware to create password
-User.beforeSave(async (user) => {
-  if (user.changed("password")) {
-    const saltRounds = 10;
-    user.password = await bcryptjs.hash(user.password, saltRounds);
-  }
-});
 
 // compare the incoming password with the hashed password
 User.prototype.isCorrectPassword = async function (password) {
