@@ -1,20 +1,21 @@
-const Book = require('./Book');
-const Bookclub = require('./BookClub');
 const User = require('./User');
+const Book = require('./Book');
+const Bookclub = require('./Bookclub');
 const UserBookclub = require('./UserBookclub');
 const UserBook = require('./UserBook');
+const BookclubBook = require('./BookclubBook');
 
+// user & book associations
+User.belongsToMany(Book, { through: UserBook, as: 'savedBooks' });
+Book.belongsToMany(User, { through: UserBook });
 
-User.belongsToMany(Book, { through: UserBook, foreignKey: 'user_id', onDelete: 'CASCADE' });
-Book.belongsToMany(User, { through: UserBook, foreignKey: 'book_id', onDelete: 'CASCADE' });
+//user & bookclub associations
+User.belongsToMany(Bookclub, { through: UserBookclub, as: 'Bookclubs' });
+Bookclub.belongsToMany(User, { through: UserBookclub });
 
-User.belongsToMany(Bookclub, { through: UserBookclub, foreignKey: 'user_id', otherKey: "bookclub_id", onDelete: 'CASCADE' });
-Bookclub.belongsToMany(User, { through: UserBookclub, foreignKey: 'bookclub_id', otherKey: "user_id", onDelete: 'CASCADE' });
+//bookclub & book associations
+Bookclub.belongsToMany(Book, { through: BookclubBook, as: 'savedBooks' });
+Book.belongsToMany(Bookclub, { through: BookclubBook });
 
-module.exports = {
-    Book,
-    Bookclub,
-    User,
-    UserBook,
-    UserBookclub,
-}
+module.exports = { User, Book, Bookclub, BookclubBook, UserBook, UserBookclub };
+
