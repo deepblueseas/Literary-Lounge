@@ -69,6 +69,7 @@ const typeDefs = gql`
     user: User
   }
 
+
   type Query {
     users: [User]
     user(username: String!): User
@@ -78,6 +79,7 @@ const typeDefs = gql`
     Bookclub(id: ID!): Bookclub
     searchBooks(query: String!): [Book]
   }
+
 
   type Mutation {
     login(email: String!, password: String!): Auth

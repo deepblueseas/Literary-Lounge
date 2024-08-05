@@ -26,6 +26,7 @@ const resolvers = {
   Date: dateScalar,
   Query: {
     users: async () => {
+
       return User.findAll({
         include: [
           {
@@ -52,13 +53,25 @@ const resolvers = {
           as: 'Bookclubs'
           },]
       });
+
     },
     books: async () => {
-      return Book.findAll();
+      try {
+        return await Book.findAll();
+      } catch (error) {
+        console.error('Error fetching books:', error);
+        throw new Error('Error fetching books');
+      }
     },
     book: async (_, { id }) => {
-      return Book.findByPk(id);
+      try {
+        return await Book.findByPk(id);
+      } catch (error) {
+        console.error('Error fetching book:', error);
+        throw new Error('Error fetching book');
+      }
     },
+
     Bookclubs: async () => {
       return Bookclub.findAll({ include: [
         {
@@ -85,41 +98,72 @@ const resolvers = {
         authors: book.author_name?.[0],
         summary: book.first_sentence?.[0] || 'No description available',
       }));
+
     },
   },
 
   Mutation: {
     login: async (_, { email, password }) => {
-      const user = await User.findOne({ where: { email } });
+      try {
+        const user = await User.findOne({ where: { email } });
 
-      if (!user) {
-        throw new AuthenticationError('Incorrect credentials');
+        if (!user) {
+          throw new AuthenticationError('Incorrect credentials');
+        }
+
+        const correctPw = await user.isCorrectPassword(password);
+
+        if (!correctPw) {
+          throw new AuthenticationError('Incorrect credentials');
+        }
+
+        const token = signToken(user);
+        return { token, user };
+      } catch (error) {
+        console.error('Error logging in:', error);
+        throw new Error('Error logging in');
       }
-
-      const correctPw = await user.isCorrectPassword(password);
-
-      if (!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
-      }
-
-      const token = signToken(user);
-      return { token, user };
     },
     addUser: async (_, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
-      const token = signToken(user);
-      return { token, user };
+      try {
+        const user = await User.create({ username, email, password });
+        const token = signToken(user);
+        return { token, user };
+      } catch (error) {
+        console.error('Error adding user:', error);
+        throw new Error('Error adding user');
+      }
     },
+
     addBook: async (_, { title, author, summary, genre, rating, datePublished }) => {
-      return await Book.create({ title, author, genre, summary, rating, datePublished });
+      return await Book.create({ title, author, genre, summary, rating, datePublished 
+      } catch (error) {
+        console.error('Error adding book:', error);
+        throw new Error('Error adding book');
+      }
+    });
+
+    addBook: async (_, { title, authors, description, genre, summary, publishedDate }) => {
+      try {
+        return await Book.create({ title, authors, description, genre, summary, publishedDate });
+      } catch (error) {
+        console.error('Error adding book:', error);
+        throw new Error('Error adding book');
+      }
+
     },
     deleteBook: async (_, { id }) => {
-      const book = await Book.findByPk(id);
-      if (book) {
-        await book.destroy();
-        return book;
+      try {
+        const book = await Book.findByPk(id);
+        if (book) {
+          await book.destroy();
+          return book;
+        }
+        throw new Error('Book not found');
+      } catch (error) {
+        console.error('Error deleting book:', error);
+        throw new Error('Error deleting book');
       }
-      throw new Error('Book not found');
     },
     saveBook: async (_, { bookId }, context) => {
       if (context.user) {
@@ -136,11 +180,13 @@ const resolvers = {
           },
         ]
          });
+
       }
       throw new AuthenticationError('You need to be logged in!');
     },
     removeBook: async (_, { bookId }, context) => {
       if (context.user) {
+
         const user = await User.findByPk(context.user.id);
         await user.removeSavedBooks(bookId); 
         return user.reload({ include: [
@@ -153,6 +199,7 @@ const resolvers = {
           as: 'Bookclubs'
           },] 
         });
+
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -173,6 +220,7 @@ const resolvers = {
           as: 'Bookclubs'
           },] 
         });
+
       }
       throw new AuthenticationError('You need to be logged in!');
     },
@@ -216,5 +264,3 @@ const resolvers = {
 };
 
 module.exports = resolvers;
-
-  
