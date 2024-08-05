@@ -1,8 +1,7 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
-import { ADD_PROFILE } from "../utils/mutations";
+import { MUTATION_ADD_USER } from "../utils/mutations";
 import Auth from "../utils/auth";
 import {
   Box,
@@ -21,11 +20,11 @@ import {
 
 const Signup = () => {
   const [formState, setFormState] = useState({
-    name: "",
+    username: "", 
     email: "",
     password: "",
   });
-  const [addProfile, { error, data }] = useMutation(ADD_PROFILE);
+  const [addUser, { error, data }] = useMutation(MUTATION_ADD_USER); // Corrected mutation name
 
   // update state based on form input changes
   const handleChange = (event) => {
@@ -41,15 +40,23 @@ const Signup = () => {
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     console.log(formState);
-
+  
     try {
-      const { data } = await addProfile({
+      const { data } = await addUser({
         variables: { ...formState },
       });
-
-      Auth.login(data.addProfile.token);
+  
+      Auth.login(data.addUser.token);
     } catch (e) {
-      console.error(e);
+      console.error("Error during signup:", e);
+      if (e.networkError) {
+        console.error("Network error:", e.networkError);
+      }
+      if (e.graphQLErrors) {
+        e.graphQLErrors.forEach(({ message, locations, path }) =>
+          console.error(`[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`)
+        );
+      }
     }
   };
 
@@ -68,45 +75,40 @@ const Signup = () => {
           ) : (
             <form onSubmit={handleFormSubmit}>
               <VStack spacing={4}>
-                <FormControl id="name" isRequired>
+                <FormControl id="username" isRequired>
                   <FormLabel>Username</FormLabel>
                   <Input
                     className="form-input"
                     placeholder="Your username"
-                    name="name"
+                    name="username" 
                     type="text"
-                    value={formState.name}
+                    value={formState.username} 
                     onChange={handleChange}
                   />
                 </FormControl>
                 <FormControl id="email" isRequired>
                   <FormLabel>Email</FormLabel>
-                <Input
-                  className="form-input"
-                  placeholder="Your email"
-                  name="email"
-                  type="email"
-                  value={formState.email}
-                  onChange={handleChange}
-                />
+                  <Input
+                    className="form-input"
+                    placeholder="Your email"
+                    name="email"
+                    type="email"
+                    value={formState.email}
+                    onChange={handleChange}
+                  />
                 </FormControl>
                 <FormControl id="password" isRequired>
                   <FormLabel>Password</FormLabel>
-                <Input
-                  className="form-input"
-                  placeholder="******"
-                  name="password"
-                  type="password"
-                  value={formState.password}
-                  onChange={handleChange}
-                />
+                  <Input
+                    className="form-input"
+                    placeholder="******"
+                    name="password"
+                    type="password"
+                    value={formState.password}
+                    onChange={handleChange}
+                  />
                 </FormControl>
-                <Button
-                colorScheme="teal"
-                type="submit"
-                w="full"
-                mt={4}
-                >
+                <Button colorScheme="teal" type="submit" w="full" mt={4}>
                   Submit
                 </Button>
               </VStack>
@@ -117,7 +119,7 @@ const Signup = () => {
             <Alert status="error" mt={4} borderRadius="md">
               <AlertIcon />
               {error.message}
-              </Alert>
+            </Alert>
           )}
         </VStack>
       </Box>
