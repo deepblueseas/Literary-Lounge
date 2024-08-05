@@ -1,43 +1,66 @@
-const typeDefs = `
+const { gql } = require('apollo-server-express');
+
+const typeDefs = gql`
   scalar Date
 
   type Book {
+    id: ID!
     title: String!
-    authors: String!
-    description: String!
+    author: String!
+    summary: String!
     genre: String
-    summary: String
-    publishedDate: Date
+    rating: Int
+    datePublished: Date
   }
 
   type User {
+    id: ID!
     username: String!
     email: String!
     password: String!
     savedBooks: [Book]
-    bookClubs: [Bookclub]
+    Bookclubs: [Bookclub]
   }
 
   type Bookclub {
-    name: String!
+    id: ID!
+    clubName: String!
     description: String!
-    members: [User]
+    location: String
     savedBooks: [Book]
   }
 
   input BookInput {
+    id: ID!
     title: String!
-    authors: String!
-    description: String!
+    author: String!
+    summary: String!
     genre: String
-    summary: String
+    rating: Int
     publishedDate: Date
   }
 
-  input BookclubInput {
-    name: String!
+  input UserBookclub {
+    id: ID!
+    user_id: String!
+    bookclub_id: String!
+  }
+
+  input UserBook {
+    id: ID!
+    user_id: String!
+    book_id: String!
+  }
+    input BookclubBook {
+    id: ID!
+    book_id: String!
+    bookclub_id: String!
+  }
+    input BookclubInput {
+    id: ID!
+    clubName: String!
     description: String!
-    members: [String]
+    location: String
     savedBooks: [BookInput]
   }
 
@@ -46,26 +69,27 @@ const typeDefs = `
     user: User
   }
 
- type Query {
-  users: [User]
-  user(username: String!): User
-  userById(userId: ID!): User
-  books: [Book]
-  book(id: ID!): Book
-  bookClubs: [Bookclub]
-  bookClub(id: ID!): Bookclub
-  searchBooks(query: String!): [Book]
-}
+
+  type Query {
+    users: [User]
+    user(username: String!): User
+    books: [Book]
+    book(id: ID!): Book
+    Bookclubs: [Bookclub]
+    Bookclub(id: ID!): Bookclub
+    searchBooks(query: String!): [Book]
+  }
 
 
   type Mutation {
     login(email: String!, password: String!): Auth
     addUser(username: String!, email: String!, password: String!): Auth
-    addBook(title: String!, authors: String!, description: String!, genre: String, summary: String, publishedDate: Date): Book
+    addBook(input: BookInput): Book
     deleteBook(id: ID!): Book
     saveBook(bookId: ID!): User
     removeBook(bookId: ID!): User
-    saveBookclub(bookclubId: ID!): User
+    addBookclub(input: BookclubInput): Bookclub
+    saveBookclub(bookclubId: ID): User
     removeBookclub(bookclubId: ID!): User
   }
 `;

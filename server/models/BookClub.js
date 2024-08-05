@@ -19,7 +19,7 @@ Bookclub.init(
         },
         location: {
             type: DataTypes.STRING
-        }
+        },
     },
     {
         sequelize,
@@ -27,7 +27,7 @@ Bookclub.init(
         freezeTableName: true,
         underscored: true,
         modelName: "Bookclub",
-      }
+    }
 );
 
 module.exports = Bookclub;
