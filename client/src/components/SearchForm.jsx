@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
+const notFoundImage = '/images/noPhoto.jpg';
+
 const SearchBar = () => {
   const [query, setQuery] = useState('');
   const [books, setBooks] = useState([]);
@@ -11,9 +13,9 @@ const SearchBar = () => {
     try {
       const response = await axios.get(`https://openlibrary.org/search.json?q=${query}`);
       const booksData = response.data.docs.map(book => ({
-        id: book.key, // Book ID for detailed view
+        id: book.key,
         title: book.title,
-        cover: book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : '',
+        cover: book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : notFoundImage,
         author: book.author_name ? book.author_name.join(', ') : 'Unknown',
         description: book.first_sentence ? book.first_sentence.join(' ') : 'No description available'
       }));
