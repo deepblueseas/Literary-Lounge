@@ -46,15 +46,17 @@ const typeDefs = `
     user: User
   }
 
-  type Query {
-    users: [User]
-    user(username: String!): User
-    books: [Book]
-    book(id: ID!): Book
-    bookClubs: [Bookclub]
-    bookClub(id: ID!): Bookclub
-    searchBooks(query: String!): [Book]
-  }
+ type Query {
+  users: [User]
+  user(username: String!): User
+  userById(userId: ID!): User
+  books: [Book]
+  book(id: ID!): Book
+  bookClubs: [Bookclub]
+  bookClub(id: ID!): Bookclub
+  searchBooks(query: String!): [Book]
+}
+
 
   type Mutation {
     login(email: String!, password: String!): Auth
