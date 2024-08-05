@@ -9,6 +9,7 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Error from './pages/Error';
+import BookDetail from './pages/BookDetail.jsx'
 
 const router = createBrowserRouter([
   {
@@ -27,8 +28,13 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <Signup />
-      }, 
-      {
+
+      }, {
+        path: '/BookDetail',
+        element: <BookDetail />
+
+        //edit these based on pages we set up
+      }, {
         path: '/me',
         element: <Profile />
       },
