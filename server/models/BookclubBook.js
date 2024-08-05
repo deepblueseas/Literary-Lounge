@@ -1,10 +1,9 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/connection");
-const User = require('./User');
 
-class UserBook extends Model{}
+class BookclubBook extends Model{}
 
-UserBook.init(
+BookclubBook.init(
     {
       id: {
         type: DataTypes.INTEGER,
@@ -12,29 +11,28 @@ UserBook.init(
         primaryKey: true,
         autoIncrement: true,
       },
-      user_id: {
+      bookclub_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: User,
-          key: 'id'
+          model: 'Bookclub',
+          key: 'id',
         },
-        onDelete: 'CASCADE'
       },
       book_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'Book',
-          key: 'id'
+            model: 'Book',
+            key: 'id',
         },
-      }
+      },
     },
     {
         sequelize,
         timestamps: false,
         freezeTableName: true,
         underscored: true,
-        modelName: "Userbook",
-      }
+        modelName: "BookclubBook",
+    }
 );
 
-module.exports = UserBook;
+module.exports = BookclubBook;

@@ -75,8 +75,8 @@ The Literary Lounge uses the Open Library API to search for books. Below is an e
 - Endpoint: GET /api/books/search?q=searchQuery
 
 ## Helpful Resources
-- ![Open Library API Docs](https://openlibrary.org/dev/docs/api/search)
-- ![Chakra UI](https://v2.chakra-ui.com/)
+- [Open Library API Docs](https://openlibrary.org/dev/docs/api/search)
+- [Chakra UI](https://v2.chakra-ui.com/)
 
 ## Contributors
 

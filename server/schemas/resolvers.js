@@ -26,25 +26,69 @@ const resolvers = {
   Date: dateScalar,
   Query: {
     users: async () => {
-      return User.findAll({ include: ['savedBooks', 'bookClubs'] });
+
+      return User.findAll({
+        include: [
+          {
+            model: Book,
+            as: 'savedBooks'
+          },
+          {
+            model: Bookclub,
+            as: 'Bookclubs'
+          }
+        ]
+      });
     },
     user: async (_, { username }) => {
       return User.findOne({
         where: { username },
-        include: ['savedBooks', 'bookClubs']
+        include: [
+          {
+          model: Book,
+          as: 'savedBooks'
+          },
+        { 
+          model: Bookclub,
+          as: 'Bookclubs'
+          },]
       });
+
     },
     books: async () => {
-      return Book.findAll();
+      try {
+        return await Book.findAll();
+      } catch (error) {
+        console.error('Error fetching books:', error);
+        throw new Error('Error fetching books');
+      }
     },
     book: async (_, { id }) => {
-      return Book.findByPk(id);
+      try {
+        return await Book.findByPk(id);
+      } catch (error) {
+        console.error('Error fetching book:', error);
+        throw new Error('Error fetching book');
+      }
     },
-    bookClubs: async () => {
-      return Bookclub.findAll({ include: ['members', 'savedBooks'] });
+
+    Bookclubs: async () => {
+      return Bookclub.findAll({ include: [
+        {
+          model: Book,
+          as: 'savedBooks'
+        },
+      ] });
     },
-    bookClub: async (_, { id }) => {
-      return Bookclub.findByPk(id, { include: ['members', 'savedBooks'] });
+    Bookclub: async (_, { id }) => {
+      return Bookclub.findByPk(id, {
+        include: [
+          {
+            model: Book,
+            as: 'savedBooks'
+          }
+        ]
+      });
     },
     searchBooks: async (_, { query }) => {
       const response = await fetch(`https://openlibrary.org/search.json?q=${query}`);
@@ -52,78 +96,171 @@ const resolvers = {
       return data.docs.map(book => ({
         title: book.title,
         authors: book.author_name?.[0],
-        description: book.first_sentence?.[0] || 'No description available',
+        summary: book.first_sentence?.[0] || 'No description available',
       }));
+
     },
   },
+
   Mutation: {
     login: async (_, { email, password }) => {
-      const user = await User.findOne({ where: { email } });
+      try {
+        const user = await User.findOne({ where: { email } });
 
-      if (!user) {
-        throw new AuthenticationError('Incorrect credentials');
+        if (!user) {
+          throw new AuthenticationError('Incorrect credentials');
+        }
+
+        const correctPw = await user.isCorrectPassword(password);
+
+        if (!correctPw) {
+          throw new AuthenticationError('Incorrect credentials');
+        }
+
+        const token = signToken(user);
+        return { token, user };
+      } catch (error) {
+        console.error('Error logging in:', error);
+        throw new Error('Error logging in');
       }
-
-      const correctPw = await user.isCorrectPassword(password);
-
-      if (!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
-      }
-
-      const token = signToken(user);
-      return { token, user };
     },
     addUser: async (_, { username, email, password }) => {
-      const user = await User.create({ username, email, password });
-      const token = signToken(user);
-      return { token, user };
+      try {
+        const user = await User.create({ username, email, password });
+        const token = signToken(user);
+        return { token, user };
+      } catch (error) {
+        console.error('Error adding user:', error);
+        throw new Error('Error adding user');
+      }
     },
+
+    addBook: async (_, { title, author, summary, genre, rating, datePublished }) => {
+      return await Book.create({ title, author, genre, summary, rating, datePublished 
+      } catch (error) {
+        console.error('Error adding book:', error);
+        throw new Error('Error adding book');
+      }
+    });
+
     addBook: async (_, { title, authors, description, genre, summary, publishedDate }) => {
-      return await Book.create({ title, authors, description, genre, summary, publishedDate });
+      try {
+        return await Book.create({ title, authors, description, genre, summary, publishedDate });
+      } catch (error) {
+        console.error('Error adding book:', error);
+        throw new Error('Error adding book');
+      }
+
     },
     deleteBook: async (_, { id }) => {
-      const book = await Book.findByPk(id);
-      if (book) {
-        await book.destroy();
-        return book;
+      try {
+        const book = await Book.findByPk(id);
+        if (book) {
+          await book.destroy();
+          return book;
+        }
+        throw new Error('Book not found');
+      } catch (error) {
+        console.error('Error deleting book:', error);
+        throw new Error('Error deleting book');
       }
-      throw new Error('Book not found');
     },
     saveBook: async (_, { bookId }, context) => {
       if (context.user) {
         const user = await User.findByPk(context.user.id);
         await user.addSavedBooks(bookId); 
-        return user.reload({ include: ['savedBooks', 'bookClubs'] });
+        return user.reload({ include: [
+          {
+          model: Book,
+          as: 'savedBooks'
+          },
+        { 
+          model: Bookclub,
+          as: 'Bookclubs'
+          },
+        ]
+         });
+
       }
       throw new AuthenticationError('You need to be logged in!');
     },
     removeBook: async (_, { bookId }, context) => {
       if (context.user) {
+
         const user = await User.findByPk(context.user.id);
         await user.removeSavedBooks(bookId); 
-        return user.reload({ include: ['savedBooks', 'bookClubs'] });
+        return user.reload({ include: [
+          {
+          model: Book,
+          as: 'savedBooks'
+          },
+        { 
+          model: Bookclub,
+          as: 'Bookclubs'
+          },] 
+        });
+
       }
       throw new AuthenticationError('You need to be logged in!');
+    },
+    addBookclub: async (_, { clubName, description, location }) => {
+      return await Bookclub.create({ clubName, description, location });
     },
     saveBookclub: async (_, { bookclubId }, context) => {
       if (context.user) {
         const user = await User.findByPk(context.user.id);
         await user.addBookclubs(bookclubId);
-        return user.reload({ include: ['savedBooks', 'bookClubs'] });
+        return user.reload({ include: [
+          {
+          model: Book,
+          as: 'savedBooks'
+          },
+        { 
+          model: Bookclub,
+          as: 'Bookclubs'
+          },] 
+        });
+
       }
       throw new AuthenticationError('You need to be logged in!');
     },
     removeBookclub: async (_, { bookclubId }, context) => {
       if (context.user) {
-        const user = await User.findByPk(context.user.id);
-        await user.removeBookclubs(bookclubId); 
-        return user.reload({ include: ['savedBooks', 'bookClubs'] });
+        const user = await User.findByPk(context.user.id, {
+          include: [
+            {
+              model: Book,
+              as: 'savedBooks'
+            },
+            {
+              model: Bookclub,
+              as: 'Bookclubs'
+            }
+          ]
+        });
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        await user.removeBookclub(bookclubId);
+
+        return user.reload({
+          include: [
+            {
+              model: Book,
+              as: 'savedBooks'
+            },
+            {
+              model: Bookclub,
+              as: 'Bookclubs'
+            }
+          ]
+        });
       }
       throw new AuthenticationError('You need to be logged in!');
-    },
-  },
+    }
+  }
 };
 
 module.exports = resolvers;
-
-  

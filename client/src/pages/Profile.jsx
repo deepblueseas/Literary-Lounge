@@ -1,58 +1,89 @@
-import { Navigate, useParams } from 'react-router-dom';
+import React from 'react';
+import { useParams, Navigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-
+import { Box, Heading, Text, Spinner, Flex, Grid, Image } from '@chakra-ui/react';
 import Auth from '../utils/auth';
+import { QUERY_USER_BY_ID } from '../utils/queries';
 
 const Profile = () => {
-  const { profileId } = useParams();
+  const { userId } = useParams();
+  const isMe = !userId;
 
-  // If there is no `profileId` in the URL as a parameter, execute the `QUERY_ME` query instead for the logged in user's information
-  const { loading, data } = useQuery(
-    profileId ? QUERY_SINGLE_PROFILE : QUERY_ME,
-    {
-      variables: { profileId: profileId },
-    }
-  );
-
-  // Check if data is returning from the `QUERY_ME` query, then the `QUERY_SINGLE_PROFILE` query
-  const profile = data?.me || data?.profile || {};
-
-  // Use React Router's `<Redirect />` component to redirect to personal profile page if username is yours
-  if (Auth.loggedIn() && Auth.getProfile().data._id === profileId) {
-    return <Navigate to="/me" />;
-  }
+  const { loading, error, data } = useQuery(QUERY_USER_BY_ID, {
+    variables: { userId: isMe ? Auth.getProfile().data._id : userId },
+  });
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <Flex justifyContent="center" alignItems="center" height="100vh">
+        <Spinner size="xl" />
+      </Flex>
+    );
   }
 
-  if (!profile?.name) {
+  if (error) {
     return (
-      <h4>
-        You need to be logged in to see your profile page. Use the navigation
-        links above to sign up or log in!
-      </h4>
+      <Box textAlign="center" mt={5}>
+        <Heading as="h4" size="md">
+          Error loading profile. Please try again later.
+        </Heading>
+      </Box>
+    );
+  }
+
+  const profile = data?.userById || {};
+
+  if (!profile?.username) {
+    return (
+      <Box textAlign="center" mt={5}>
+        <Heading as="h4" size="md">
+          You need to be logged in to see your profile page. Use the navigation
+          links above to sign up or log in!
+        </Heading>
+      </Box>
     );
   }
 
   return (
-    <div>
-      <h2 className="card-header">
-        {profileId ? `${profile.name}'s` : 'Your'} friends have endorsed these
-        skills...
-      </h2>
+    <Box p={5}>
+      <Heading as="h2" size="xl">
+        {isMe ? 'Your Profile' : `${profile.username}'s Profile`}
+      </Heading>
 
-      {profile.skills?.length > 0 && (
-        <SkillsList
-          skills={profile.skills}
-          isLoggedInUser={!profileId && true}
-        />
-      )}
+      <Grid templateColumns="repeat(3, 1fr)" gap={6} mt={5}>
+        <Box>
+          <Heading as="h3" size="lg">Saved Books</Heading>
+          {profile.savedBooks?.length > 0 ? (
+            <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={3}>
+              {profile.savedBooks.map((book, index) => (
+                <Box key={index} p={3} shadow="md" borderWidth="1px">
+                  <Image src={book.image} alt={book.title} />
+                  <Heading fontSize="xl" mt={2}>{book.title}</Heading>
+                  <Text mt={2}>{book.authors}</Text>
+                  <Text mt={2}>{book.description}</Text>
+                </Box>
+              ))}
+            </Grid>
+          ) : (
+            <Text mt={2}>No saved books, yet.</Text>
+          )}
+        </Box>
 
-      <div className="my-4 p-4" style={{ border: '1px dotted #1a1a1a' }}>
-        <SkillForm profileId={profile._id} />
-      </div>
-    </div>
+        <Box>
+          <Heading as="h3" size="lg">Book Clubs</Heading>
+          {profile.bookClubs?.length > 0 ? (
+            profile.bookClubs.map((club, index) => (
+              <Box key={index} p={3} shadow="md" borderWidth="1px">
+                <Heading fontSize="xl">{club.name}</Heading>
+                <Text mt={4}>{club.description}</Text>
+              </Box>
+            ))
+          ) : (
+            <Text mt={2}>No book clubs, yet.</Text>
+          )}
+        </Box>
+      </Grid>
+    </Box>
   );
 };
 

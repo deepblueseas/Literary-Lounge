@@ -1,34 +1,35 @@
-const { Model, DataTypes } = require("sequelize");
-const sequelize = require("../config/connection");
-const User = require('./User');
+const { Model, DataTypes } = require('sequelize');
+const sequelize = require('../config/connection');
 
-class UserBookclub extends Model{}
+class UserBookclub extends Model {}
 
-UserBookclub.init(
-    {
-        user_id: {
-            type: DataTypes.INTEGER,
-            references: {
-              model: User,
-              key: 'id'
-            },
-            onDelete: 'CASCADE'
-          },
-          bookclub_id: {
-            type: DataTypes.INTEGER,
-            references: {
-              model: 'Bookclub',
-              key: 'id'
-            },
-          }
+UserBookclub.init({
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  user_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'User',
+      key: 'id',
     },
-    {
-        sequelize,
-        timestamps: false,
-        freezeTableName: true,
-        underscored: true,
-        modelName: "UserBookclub",
-      }
-);
+  },
+  bookclub_id: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'Bookclub',
+      key: 'id',
+    },
+  },
+}, {
+  sequelize,
+  timestamps: true,
+  freezeTableName: true,
+  underscored: true,
+  modelName: 'UserBookclub',
+});
 
 module.exports = UserBookclub;

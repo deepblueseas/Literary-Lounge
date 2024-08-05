@@ -19,7 +19,6 @@ export const QUERY_USER_BY_ID = gql`
   }
 `;
 
-
 // Query to get all users
 export const QUERY_USERS = gql`
   query getUsers {
@@ -94,7 +93,7 @@ export const SEARCH_BOOKS = gql`
   query searchBooks($query: String!) {
     searchBooks(query: $query) {
       title
-      author
+      authors
       description
     }
   }

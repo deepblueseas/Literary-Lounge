@@ -1,9 +1,9 @@
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/connection");
 
-class SQLBook extends Model{}
+class Book extends Model{}
 
-SQLBook.init(
+Book.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -25,6 +25,9 @@ SQLBook.init(
         summary: {
             type: DataTypes.STRING,
         },
+        genre: {
+            type: DataTypes.STRING,
+        },
         rating: {
             type: DataTypes.INTEGER
         }
@@ -38,4 +41,4 @@ SQLBook.init(
       }
 );
 
-module.exports = SQLBook;
+module.exports = Book;
