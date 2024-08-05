@@ -29,7 +29,7 @@ export const ADD_USER = gql`
 export const ADD_BOOK = gql`
   mutation addBook($title: String!, $author: String!, $genre: String!, $publishedDate: String!, $summary: String!) {
     addBook(title: $title, author: $author, genre: $genre, publishedDate: $publishedDate, summary: $summary) {
-      _id
+      id
       title
       author
       genre

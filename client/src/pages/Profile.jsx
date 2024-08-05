@@ -3,15 +3,25 @@ import { useParams, Navigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Box, Heading, Text, Spinner, Flex, Grid, Image } from '@chakra-ui/react';
 import Auth from '../utils/auth';
-import { QUERY_USER_BY_ID } from '../utils/queries';
+import { QUERY_USER_BY_ID, QUERY_ME } from '../utils/queries';
 
 const Profile = () => {
   const { userId } = useParams();
   const isMe = !userId;
 
-  const { loading, error, data } = useQuery(QUERY_USER_BY_ID, {
-    variables: { userId: isMe ? Auth.getProfile().data.id : userId },
-  });
+  const profileData = Auth.getProfile();
+  console.log('Auth.getProfile():', profileData);
+
+  // Safely access the user id from authenticatedPerson
+  const userIdToQuery = isMe ? profileData?.authenticatedPerson?.id : userId;
+
+  const { loading, error, data } = useQuery(
+    isMe ? QUERY_ME : QUERY_USER_BY_ID,
+    {
+      variables: { userId: userIdToQuery },
+      skip: !userIdToQuery, // Skip the query if userIdToQuery is undefined
+    }
+  );
 
   if (loading) {
     return (
@@ -23,7 +33,7 @@ const Profile = () => {
 
   if (error) {
     return (
-      <Box textAlign="center" mt={5}>
+      <Box textAlign="center" mt={5} >
         <Heading as="h4" size="md">
           Error loading profile. Please try again later.
         </Heading>
@@ -31,16 +41,25 @@ const Profile = () => {
     );
   }
 
-  const profile = data?.userById || {};
+  const profile = data?.me || data?.userById || {};
+
+
+  if (Auth.loggedIn() && Auth.getProfile().authenticatedPerson.id === userId) {
+    return <Navigate to="/me" />;
+  }
 
   if (!profile?.username) {
     return (
-      <Box textAlign="center" mt={5}>
-        <Heading as="h4" size="md">
-          You need to be logged in to see your profile page. Use the navigation
-          links above to sign up or log in!
-        </Heading>
-      </Box>
+      // <Box textAlign="center" mt={5}>
+      //   <Heading as="h4" size="md" color="black">
+      //     You need to be logged in to see your profile page. Use the navigation
+      //     links above to sign up or log in!
+      //   </Heading>
+      // </Box>
+        <Box p={5}>
+          <Heading as="h2" size="xl">Test Content</Heading>
+          <Text>This is a test text.</Text>
+        </Box>
     );
   }
 
@@ -65,7 +84,7 @@ const Profile = () => {
               ))}
             </Grid>
           ) : (
-            <Text mt={2}>No saved books, yet.</Text>
+            <Text mt={2} color='black'>No saved books, yet.</Text>
           )}
         </Box>
 

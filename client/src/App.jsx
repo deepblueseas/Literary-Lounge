@@ -5,7 +5,9 @@ import { setContext } from '@apollo/client/link/context';
 import { ChakraProvider, Box, Container, Flex } from '@chakra-ui/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import customTheme from './theme'; // If you have custom theme settings
+
+import customTheme from './theme';
+import SearchBar from './components/SearchForm';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -39,6 +41,7 @@ function App() {
           </Box>
           <Container as="main" flex="1" centerContent>
             <Outlet />
+            <SearchBar />
           </Container>
           <Box as='footer' w="100%" bg="primary.500" p={4}>
             <Footer />
