@@ -10,7 +10,7 @@ const Profile = () => {
   const isMe = !userId;
 
   const { loading, error, data } = useQuery(QUERY_USER_BY_ID, {
-    variables: { userId: isMe ? Auth.getProfile().data._id : userId },
+    variables: { userId: isMe ? Auth.getProfile().data.id : userId },
   });
 
   if (loading) {
