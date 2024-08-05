@@ -58,8 +58,8 @@ const Login = (props) => {
 
   return (
     <Box d="flex" flexDir="column" alignItems="center" mt={8}>
-     <Box maxW="md" borderWidth={1} borderRadius="lg" p={6}>
-     <Heading mb={4} as="h4" size="md" textAlign="center">
+     <Box maxW="lg" borderWidth={1} borderRadius="lg" p={6}>
+     <Heading mb={4} as="h4" size="lg" textAlign="center">
           Login
         </Heading>
             {data ? (
