@@ -19,7 +19,6 @@ export const QUERY_USER_BY_ID = gql`
   }
 `;
 
-
 // Query to get all users
 export const QUERY_USERS = gql`
   query getUsers {
@@ -27,6 +26,24 @@ export const QUERY_USERS = gql`
       _id
       username
       email
+    }
+  }
+`;
+
+export const QUERY_ME = gql`
+  query me {
+    me {
+      _id
+      username
+      email
+      savedBooks {
+        _id
+        title
+      }
+      bookClubs {
+        _id
+        name
+      }
     }
   }
 `;
@@ -94,7 +111,7 @@ export const SEARCH_BOOKS = gql`
   query searchBooks($query: String!) {
     searchBooks(query: $query) {
       title
-      author
+      authors
       description
     }
   }

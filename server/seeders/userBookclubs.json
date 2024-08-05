@@ -1,0 +1,26 @@
+[
+    {
+        "user_id":"2",
+        "bookclub_id": "2"
+    },
+    {
+        "user_id":"2",
+        "bookclub_id": "4"
+    },
+    {
+        "user_id":"3",
+        "bookclub_id": "2"
+    },
+    {
+        "user_id":"4",
+        "bookclub_id": "4"
+    },
+    {
+        "user_id":"5",
+        "bookclub_id": "2"
+    },
+    {
+        "user_id":"5",
+        "bookclub_id": "3"
+    }
+]
