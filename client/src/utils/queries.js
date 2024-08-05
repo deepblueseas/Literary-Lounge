@@ -30,6 +30,24 @@ export const QUERY_USERS = gql`
   }
 `;
 
+export const QUERY_ME = gql`
+  query me {
+    me {
+      _id
+      username
+      email
+      savedBooks {
+        _id
+        title
+      }
+      bookClubs {
+        _id
+        name
+      }
+    }
+  }
+`;
+
 // Query to get all books
 export const QUERY_BOOKS = gql`
   query getBooks {
