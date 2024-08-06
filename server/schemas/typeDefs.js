@@ -92,6 +92,7 @@ const typeDefs = gql`
     addBookclub(input: BookclubInput): Bookclub
     saveBookclub(bookclubId: ID): User
     removeBookclub(bookclubId: ID!): User
+    me: User
   }
 `;
 
