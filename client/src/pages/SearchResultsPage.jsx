@@ -17,13 +17,14 @@ const SearchResultsPage = () => {
       setLoading(true);
       try {
         const response = await axios.get(`https://openlibrary.org/search.json?q=${query}`);
-        const booksData = response.data.docs.map(book => ({
-          id: book.key,
-          title: book.title,
-          cover: book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : notFoundImage,
-          author: book.author_name ? book.author_name.join(', ') : 'Unknown',
-          description: book.first_sentence ? book.first_sentence.join(' ') : 'No description available'
-        }));
+        const booksData = response.data.docs
+          .filter(book => book.type === 'work' && book.cover_i && book.first_sentence)
+          .map(book => ({
+            id: book.key,
+            title: book.title,
+            cover: book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : notFoundImage,
+            author: book.author_name ? book.author_name.join(', ') : 'Unknown'
+          }));
         setBooks(booksData);
       } catch (error) {
         setError('Error fetching books');
@@ -51,13 +52,12 @@ const SearchResultsPage = () => {
         ) : (
           <Flex direction="column">
             {books.map((book) => (
-              <Link key={book.id} to={`/book/${book.id}`}>
+              <Link key={book.id} to={`${book.id}`}>
                 <Flex align="center" mb={4} p={2} borderWidth="1px" borderRadius="lg" _hover={{ bg: 'gray.100' }} cursor="pointer">
                   <Image src={book.cover} alt={book.title} boxSize="100px" objectFit="cover" mr={4} />
                   <Flex direction="column">
                     <Heading size="md">{book.title}</Heading>
                     <Text fontSize="sm">by {book.author}</Text>
-                    <Text mt={2}>{book.description}</Text>
                   </Flex>
                 </Flex>
               </Link>
