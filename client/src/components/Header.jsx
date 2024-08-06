@@ -1,13 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Box, Flex, Heading, Text, Button, Container, Icon } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons'; // Import Chakra UI icon
 import Auth from '../utils/auth';
 
 const Header = () => {
+  const navigate = useNavigate();
   const logout = (event) => {
     event.preventDefault();
     Auth.logout();
+    navigate('/login');
   };
 
   return (
