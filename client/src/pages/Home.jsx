@@ -1,15 +1,21 @@
 import React from 'react';
-import SearchBar from '../components/SearchForm';
-import { Box, Container, Heading } from '@chakra-ui/react';
-
+// import SearchBar from 'SearchForm'; // Adjust the import path as necessary
+import '../App'; // Import the CSS file for Home component styling
 const Home = () => {
   return (
-    <Box p={4}>
-      <Container maxW="container.lg">
-        <Heading mb={4}>Welcome to The Literary Lounge!</Heading>
-        <SearchBar />
-      </Container>
-    </Box>
+    <div className="home-container">
+      <h1>Welcome to the Literary Lounge!</h1>
+      <h2>Kick your feet up, find a comfortable place to lounge, and indulge in your new favorite book below!</h2>
+      <div className="content-container">
+        <div className="lounge">
+          <img src="/images/NewLounger.png" alt="Lounge" />
+        </div>
+        <div className="book">
+          <img src="/images/Greenandbluebooks.jpg" alt="Book" />
+        </div>
+      </div>
+        {/* <SearchBar /> */}
+      </div>
   );
 };
 
