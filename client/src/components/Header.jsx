@@ -5,19 +5,20 @@ import { SearchIcon } from '@chakra-ui/icons';
 import Auth from '../utils/auth';
 
 const Header = () => {
-  const [query, setQuery] = useState('');
-  const navigate = useNavigate();
+const [query, setQuery] = useState('');
+const navigate = useNavigate();
 
-  const handleSearch = (e) => {
+const handleSearch = (e) => {
     e.preventDefault();
     if (query.trim()) {
       navigate(`/search?query=${encodeURIComponent(query)}`);
-    }
-  };
-
-  const logout = (event) => {
+   }
+ };
+  
+const logout = (event) => {
     event.preventDefault();
     Auth.logout();
+    navigate('/login');
   };
 
   return (
