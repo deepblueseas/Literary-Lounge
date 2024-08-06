@@ -1,11 +1,15 @@
 import React from 'react';
+import SearchBar from '../components/SearchForm';
+import { Box, Container, Heading } from '@chakra-ui/react';
 
 const Home = () => {
   return (
-    <div>
-      <h1>Welcome to the Literary Lounge!</h1>
-      {/* Add more content as needed */}
-    </div>
+    <Box p={4}>
+      <Container maxW="container.lg">
+        <Heading mb={4}>Welcome to The Literary Lounge!</Heading>
+        <SearchBar />
+      </Container>
+    </Box>
   );
 };
 

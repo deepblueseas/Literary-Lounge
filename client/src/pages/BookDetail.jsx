@@ -1,60 +1,62 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom';
+import { Box, Flex, Heading, Text, Image, Spinner, Container } from '@chakra-ui/react';
 
 const notFoundImage = '/images/noPhoto.jpg';
 
-const BookDetail = ({ match }) => {
-    const [book, setBook] = useState(null);
-    const [addedToList, setAddedToList] = useState(false);
-    const bookId = match.params.id;
-  
-    useEffect(() => {
-      const fetchBookDetails = async () => {
-        try {
-          const response = await axios.get(`https://openlibrary.org${bookId}.json`);
-          setBook(response.data);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-  
-      fetchBookDetails();
-    }, [bookId]);
-  
-    const handleAddToList = async () => {
+const BookDetail = () => {
+  const { bookId } = useParams();
+  const [book, setBook] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      setLoading(true);
       try {
-        const response = await axios.post('http://localhost:5000/api/addBook', {
-          title: book.title,
-          author: book.author_name ? book.author_name.join(', ') : 'Unknown',
-          datePublished: book.publish_date ? new Date(book.publish_date).toISOString() : null,
-          summary: book.description ? book.description.value : 'No description available',
-          rating: null, // Assuming the rating is not available from the API response
-          cover: book.cover ? `https://covers.openlibrary.org/b/id/${book.cover}-L.jpg` : notFoundImage,
-        });
-        if (response.status === 201) {
-          setAddedToList(true);
-        }
+        const response = await axios.get(`https://openlibrary.org/works/${bookId}.json`);
+        const bookData = {
+          id: response.data.key,
+          title: response.data.title,
+          cover: response.data.cover_id ? `https://covers.openlibrary.org/b/id/${response.data.cover_id}-L.jpg` : notFoundImage,
+          author: response.data.authors ? response.data.authors.map(author => author.name).join(', ') : 'Unknown',
+          description: response.data.description ? response.data.description.value : 'No description available'
+        };
+        setBook(bookData);
       } catch (error) {
-        console.error('Error adding book to list:', error);
+        setError('Error fetching book details');
+        console.error("Error fetching book details:", error);
+      } finally {
+        setLoading(false);
       }
     };
-  
-    if (!book) return <div>Loading...</div>;
-  
-    return (
-      <div>
-        <h1>{book.title}</h1>
-        <img 
-          src={book.cover ? `https://covers.openlibrary.org/b/id/${book.cover}-L.jpg` : notFoundImage} 
-          alt={book.title} 
-        />
-        <p><strong>Author:</strong> {book.author_name ? book.author_name.join(', ') : 'Unknown'}</p>
-        <p><strong>Description:</strong> {book.description ? book.description.value : 'No description available'}</p>
-        <button onClick={handleAddToList}>
-          {addedToList ? 'Added to List' : 'Add to List'}
-        </button>
-      </div>
-    );
-  };
-  
-  export default BookDetail;
+
+    fetchBookDetails();
+  }, [bookId]);
+
+  return (
+    <Box p={4}>
+      <Container maxW="container.lg">
+        {loading ? (
+          <Flex justify="center" align="center" height="100vh">
+            <Spinner size="lg" />
+          </Flex>
+        ) : error ? (
+          <Text color="red.500">{error}</Text>
+        ) : (
+          book && (
+            <Flex direction="column" align="center">
+              <Image src={book.cover} alt={book.title} boxSize="200px" objectFit="cover" mb={4} />
+              <Heading mb={2}>{book.title}</Heading>
+              <Text fontSize="lg" mb={4}>by {book.author}</Text>
+              <Text>{book.description}</Text>
+            </Flex>
+          )
+        )}
+      </Container>
+    </Box>
+  );
+};
+
+export default BookDetail;

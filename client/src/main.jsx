@@ -3,13 +3,14 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 
-import App from './App.jsx';
+import App from './App';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Error from './pages/Error';
-import BookDetail from './pages/BookDetail.jsx'
+import BookDetail from './pages/BookDetail';
+import SearchResultsPage from './pages/SearchResultsPage';
 
 const router = createBrowserRouter([
   {
@@ -28,13 +29,16 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <Signup />
-
-      }, {
-        path: '/BookDetail',
+      },
+      {
+        path: '/search',
+        element: <SearchResultsPage />
+      },
+      {
+        path: '/book/:bookId',
         element: <BookDetail />
-
-        //edit these based on pages we set up
-      }, {
+      },
+      {
         path: '/me',
         element: <Profile />
       },
@@ -42,7 +46,6 @@ const router = createBrowserRouter([
         path: '/profiles/:userId',
         element: <Profile />
       },
-     
     ]
   }
 ]);
