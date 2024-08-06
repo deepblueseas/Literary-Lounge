@@ -1,108 +1,83 @@
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { Box, Heading, Text, Spinner, Flex, Grid, Image } from '@chakra-ui/react';
+import { Spinner, Box, Container, Heading, Text, VStack, Alert, AlertIcon } from '@chakra-ui/react';
+import { QUERY_USER_BY_USERNAME } from '../utils/queries';
+import BookClubList from '../components/BookClubList';
+import BookList from '../components/BookList';
 import Auth from '../utils/auth';
-import { QUERY_USER_BY_ID, QUERY_ME } from '../utils/queries';
 
 const Profile = () => {
-  const { userId } = useParams();
-  const isMe = !userId;
+  const { username } = useParams();
 
-  const profileData = Auth.getProfile();
-  console.log('Auth.getProfile():', profileData);
+  const { loading, data, error } = useQuery(QUERY_USER_BY_USERNAME, {
+    variables: { username },
+  });
 
-  // Safely access the user id from authenticatedPerson
-  const userIdToQuery = isMe ? profileData?.authenticatedPerson?.id : userId;
-
-  const { loading, error, data } = useQuery(
-    isMe ? QUERY_ME : QUERY_USER_BY_ID,
-    {
-      variables: { userId: userIdToQuery },
-      skip: !userIdToQuery, // Skip the query if userIdToQuery is undefined
-    }
-  );
+  const isLoggedIn = Auth.loggedIn();
+  const loggedInUser = isLoggedIn ? Auth.getProfile()?.data : null;
+  console.log('loggedInUser', loggedInUser);
 
   if (loading) {
     return (
-      <Flex justifyContent="center" alignItems="center" height="100vh">
+      <Container centerContent>
         <Spinner size="xl" />
-      </Flex>
+      </Container>
     );
   }
 
   if (error) {
+    console.error('Error loading profile:', error);
     return (
-      <Box textAlign="center" mt={5} >
+      <Container centerContent>
+        <Alert status="error" borderRadius="md">
+          <AlertIcon />
+          Error loading profile: {error.message}
+        </Alert>
+      </Container>
+    );
+  }
+
+  if (!data?.userByUsername) {
+    return (
+      <Container centerContent>
         <Heading as="h4" size="md">
-          Error loading profile. Please try again later.
+          User not found. Please check the username or try again later.
         </Heading>
-      </Box>
+      </Container>
     );
   }
 
-  const profile = data?.me || data?.userById || {};
+  const user = data.userByUsername;
 
-
-  if (Auth.loggedIn() && Auth.getProfile().authenticatedPerson.id === userId) {
-    return <Navigate to="/me" />;
-  }
-
-  if (!profile?.username) {
-    return (
-      // <Box textAlign="center" mt={5}>
-      //   <Heading as="h4" size="md" color="black">
-      //     You need to be logged in to see your profile page. Use the navigation
-      //     links above to sign up or log in!
-      //   </Heading>
-      // </Box>
-        <Box p={5}>
-          <Heading as="h2" size="xl">Test Content</Heading>
-          <Text>This is a test text.</Text>
-        </Box>
-    );
+  // Redirect if the logged-in user is viewing their own profile
+  if (isLoggedIn && loggedInUser?.username === username) {
+    return <Navigate to="/profile" />;
   }
 
   return (
-    <Box p={5}>
-      <Heading as="h2" size="xl">
-        {isMe ? 'Your Profile' : `${profile.username}'s Profile`}
-      </Heading>
-
-      <Grid templateColumns="repeat(3, 1fr)" gap={6} mt={5}>
-        <Box>
-          <Heading as="h3" size="lg">Saved Books</Heading>
-          {profile.savedBooks?.length > 0 ? (
-            <Grid templateColumns="repeat(2, 1fr)" gap={4} mt={3}>
-              {profile.savedBooks.map((book, index) => (
-                <Box key={index} p={3} shadow="md" borderWidth="1px">
-                  <Image src={book.image} alt={book.title} />
-                  <Heading fontSize="xl" mt={2}>{book.title}</Heading>
-                  <Text mt={2}>{book.authors}</Text>
-                  <Text mt={2}>{book.description}</Text>
-                </Box>
-              ))}
-            </Grid>
+    <Container centerContent>
+      <Box w="100%" maxW="lg" p={6} boxShadow="md" borderRadius="md">
+        <Heading as="h2" size="lg" mb={4} textAlign="center">
+          {user.username}'s saved books and book clubs
+        </Heading>
+        {user.savedBooks?.length > 0 ? (
+          <BookList savedBooks={user.savedBooks} />
+        ) : (
+          <Text>No saved books found.</Text>
+        )}
+        <Box className="my-4 p-4" border="1px dotted #1a1a1a" borderRadius="md">
+          <Heading as="h3" size="md" mb={2}>
+            Book Clubs
+          </Heading>
+          {user.bookclubs?.length > 0 ? (
+            <BookClubList bookclubs={user.bookclubs} />
           ) : (
-            <Text mt={2} color='black'>No saved books, yet.</Text>
+            <Text>No book clubs found.</Text>
           )}
         </Box>
-
-        <Box>
-          <Heading as="h3" size="lg">Book Clubs</Heading>
-          {profile.bookClubs?.length > 0 ? (
-            profile.bookClubs.map((club, index) => (
-              <Box key={index} p={3} shadow="md" borderWidth="1px">
-                <Heading fontSize="xl">{club.name}</Heading>
-                <Text mt={4}>{club.description}</Text>
-              </Box>
-            ))
-          ) : (
-            <Text mt={2}>No book clubs, yet.</Text>
-          )}
-        </Box>
-      </Grid>
-    </Box>
+      </Box>
+    </Container>
   );
 };
 

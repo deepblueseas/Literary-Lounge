@@ -40,21 +40,33 @@ const resolvers = {
         ]
       });
     },
-    user: async (_, { username }) => {
-      return User.findOne({
-        where: { username },
-        include: [
-          {
-          model: Book,
-          as: 'savedBooks'
-          },
-        { 
-          model: Bookclub,
-          as: 'Bookclubs'
-          },]
-      });
+    userByUsername: async (_, { username }) => {
+      try {
+        if (!username) {
+          throw new Error('Username is required');
+        }
 
+        const user = await User.findOne({
+          where: { username },
+          include: [
+            { model: Book, as: 'savedBooks' },
+            { model: Bookclub, as: 'bookclubs' }
+          ]
+        });
+
+        if (!user) {
+          throw new Error('User not found');
+        }
+
+        return user;
+      } catch (error) {
+        console.error('Error fetching user by username:', error);
+        throw new Error('Error fetching user by username');
+      }
     },
+  },
+};
+
     books: async () => {
       try {
         return await Book.findAll();
@@ -98,9 +110,9 @@ const resolvers = {
         authors: book.author_name?.[0],
         summary: book.first_sentence?.[0] || 'No description available',
       }));
-
+    }
     },
-  },
+
 
   Mutation: {
     login: async (_, { email, password }) => {
@@ -126,22 +138,27 @@ const resolvers = {
     },
     addUser: async (_, { username, email, password }) => {
       try {
+        // Log input data
+        console.log('Attempting to create user with:', { username, email, password });
+        
+        // Create user
         const user = await User.create({ username, email, password });
+    
+        // Log the created user
+        console.log('User created:', user);
+    
+        // Generate token
         const token = signToken(user);
+    
         return { token, user };
       } catch (error) {
+        // Log the error
         console.error('Error adding user:', error);
+    
+        // Rethrow the error
         throw new Error('Error adding user');
       }
     },
-
-    me: async (parent, args, context) => {
-      if (context.user) {
-        return User.findById(context.user._id).populate('savedBooks').populate('bookClubs');
-      }
-      throw new AuthenticationError('Not logged in');
-    },
-  },
 
     addBook: async (_, { title, authors, description, genre, summary, publishedDate }) => {
       try {
@@ -260,6 +277,7 @@ const resolvers = {
       }
       throw new AuthenticationError('You need to be logged in!');
     }
-  };
+  }
+};
 
 module.exports = resolvers;

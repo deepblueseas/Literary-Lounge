@@ -32,16 +32,16 @@ const router = createBrowserRouter([
       }, {
         path: '/BookDetail',
         element: <BookDetail />
-
-        //edit these based on pages we set up
-      }, {
-        path: '/me',
-        element: <Profile />
-      },
+      }, 
       {
-        path: '/profiles/:userId',
+        path: '/profile/:username',
+        element: <Profile />
+      }, 
+      {
+        path: '/profile',
         element: <Profile />
       },
+     
      
     ]
   }

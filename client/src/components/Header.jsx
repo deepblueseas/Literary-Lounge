@@ -10,6 +10,9 @@ const Header = () => {
     Auth.logout();
   };
 
+   const loggedInUser = Auth.loggedIn() ? Auth.getProfile()?.data : null;
+   console.log('loggedInUser', loggedInUser);
+
   return (
     <Box bg="primary" color="white" mb={4} py={3}>
       <Container maxW="container.lg">
@@ -28,7 +31,7 @@ const Header = () => {
           <Flex mt={4}>
             {Auth.loggedIn() ? (
               <>
-                <Button as={Link} to="/me" bg="primary" color="white" variant="outline" m={2}>
+                <Button as={Link} to={`/profile/${loggedInUser?.username}`} bg="primary" color="white" variant="outline" m={2}>
                   My Profile
                 </Button>
                 <Button as={Link} to="/bookclubs" bg="primary" color="white" m={2}>
