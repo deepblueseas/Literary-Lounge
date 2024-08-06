@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { ADD_BOOKCLUB } from '../mutations';
-import { GET_BOOKCLUBS } from '../queries';
+import { GET_BOOKCLUBS } from '../utils/queries';
 import {
   FormControl,
   FormLabel,

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_BOOKCLUBS } from '../queries';
+import { QUERY_BOOKCLUBS } from '../utils/queries';
 import {
   Box,
   Heading,
@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 
 const BookClubList = () => {
-  const { loading, error, data } = useQuery(GET_BOOKCLUBS);
+  const { loading, error, data } = useQuery(QUERY_BOOKCLUBS);
   if (loading) return <Spinner size="xl" />;
   if (error) return (
     <Alert status='error'>

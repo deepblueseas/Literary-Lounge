@@ -1,12 +1,10 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { ChakraProvider, Box, Container, Flex } from '@chakra-ui/react';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import './App.css'
-
 import customTheme from './theme';
 
 // Construct our main GraphQL API endpoint

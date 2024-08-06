@@ -37,13 +37,13 @@ const router = createBrowserRouter([
       {
         path: '/works/:id',
         element: <BookDetail />
-      },
+      }, 
       {
-        path: '/me',
+        path: '/profile/:username',
         element: <Profile />
-      },
+      }, 
       {
-        path: '/profiles/:userId',
+        path: '/profile',
         element: <Profile />
       },
     ]
