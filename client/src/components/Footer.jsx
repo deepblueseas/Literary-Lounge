@@ -33,10 +33,10 @@ const Footer = () => {
             </a>
           </Flex>
           <Flex mb={3}>
-            <Text>Contact us at: <a href="mailto:support@mybookpals.com" className="text-light">support@mybookpals.com</a></Text>
+            <Text>Contact us at: <a href="mailto:support@myliterarylounge.com" className="text-light">support@myliterarylounge.com</a></Text>
           </Flex>
           <Flex mb={3}>
-            <Text>&copy; {new Date().getFullYear()} My Book Pals. All rights reserved.</Text>
+            <Text>&copy; {new Date().getFullYear()} Literary Lounge. All rights reserved.</Text>
           </Flex>
         </Flex>
       </Container>
