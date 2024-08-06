@@ -19,7 +19,7 @@ const typeDefs = gql`
     email: String!
     password: String!
     savedBooks: [Book]
-    Bookclubs: [Bookclub]
+    bookclubs: [Bookclub]
   }
 
   type Bookclub {
@@ -27,7 +27,7 @@ const typeDefs = gql`
     clubName: String!
     description: String!
     location: String
-    savedBooks: [Book]
+    members: [User]
   }
 
   input BookInput {
@@ -89,9 +89,11 @@ const typeDefs = gql`
     deleteBook(id: ID!): Book
     saveBook(bookId: ID!): User
     removeBook(bookId: ID!): User
-    addBookclub(input: BookclubInput): Bookclub
+    addBookclub(clubName: String!, description: String!, location: String): Bookclub
     saveBookclub(bookclubId: ID): User
     removeBookclub(bookclubId: ID!): User
+    joinBookclub(bookclubId: ID!): Bookclub
+    me: User
   }
 `;
 

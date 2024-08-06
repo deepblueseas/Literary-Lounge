@@ -10,6 +10,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Error from './pages/Error';
 import BookDetail from './pages/BookDetail.jsx'
+import BookClubsPage from './pages/BookClubsPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -41,7 +42,10 @@ const router = createBrowserRouter([
       {
         path: '/profiles/:userId',
         element: <Profile />
-      },
+      }, {
+        path: '/bookclubs',
+        element: <BookClubsPage />
+      }
      
     ]
   }

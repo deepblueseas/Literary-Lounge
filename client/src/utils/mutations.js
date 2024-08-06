@@ -175,3 +175,30 @@ export const REMOVE_BOOK_FROM_LIST = gql`
     }
   }
 `;
+
+//Mutation to create book club
+export const CREATE_BOOKCLUB = gql`
+  mutation addBookclub($clubName: String!, $description: String!, $location: String!) {
+    addBookclub(clubName: $clubName, description: $description, location: $location) {
+      id
+      clubName
+      description
+      location
+    }
+  }
+`;
+
+export const JOIN_BOOKCLUB = gql`
+  mutation JoinBookclub($bookclubId: ID!) {
+    joinBookclub(bookclubId: $bookclubId) {
+      id
+      clubName
+      description
+      location
+      members {
+        id
+        username
+      }
+    }
+  }
+`;
