@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Box, Flex, Heading, Text, Button, Container, Icon, Input } from '@chakra-ui/react';
-import { SearchIcon } from '@chakra-ui/icons'; // Import Chakra UI icon
+import { SearchIcon } from '@chakra-ui/icons';
 import Auth from '../utils/auth';
 
 const Header = () => {
   const [query, setQuery] = useState('');
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();

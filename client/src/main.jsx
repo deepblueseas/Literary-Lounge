@@ -10,7 +10,7 @@ import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Error from './pages/Error';
 import BookDetail from './pages/BookDetail';
-import SearchResultsPage from './pages/SearchResultsPage'; // Import the SearchResultsPage component
+import SearchResultsPage from './pages/SearchResultsPage';
 
 const router = createBrowserRouter([
   {
@@ -32,11 +32,11 @@ const router = createBrowserRouter([
       },
       {
         path: '/search',
-        element: <SearchResultsPage /> // Add the route for search results
+        element: <SearchResultsPage />
       },
       {
         path: '/book/:bookId',
-        element: <BookDetail /> // Assuming 'bookId' is the correct parameter for BookDetail
+        element: <BookDetail />
       },
       {
         path: '/me',

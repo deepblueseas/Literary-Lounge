@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useLocation, Link } from 'react-router-dom'; // Import Link for navigation
+import { useLocation, Link } from 'react-router-dom';
 import { Box, Flex, Heading, Text, Image, Spinner, Container } from '@chakra-ui/react';
 
 const notFoundImage = '/images/noPhoto.jpg';
