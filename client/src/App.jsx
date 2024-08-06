@@ -8,7 +8,6 @@ import Footer from './components/Footer';
 import './App.css'
 
 import customTheme from './theme';
-import SearchBar from './components/SearchForm';
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -42,7 +41,6 @@ function App() {
           </Box>
           <Container as="main" flex="1" centerContent>
             <Outlet />
-            <SearchBar />
           </Container>
           <Box as='footer' w="100%" bg="primary.500" p={4}>
             <Footer />
