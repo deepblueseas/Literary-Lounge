@@ -56,32 +56,18 @@ const resolvers = {
 
       });
     },
-    userByUsername: async (_, { username }) => {
-      try {
-        if (!username) {
-          throw new Error('Username is required');
-        }
-
-        const user = await User.findOne({
-          where: { username },
-          include: [
-            { model: Book, as: 'savedBooks' },
-            { model: Bookclub, as: 'bookclubs' }
-          ]
-        });
-
-        if (!user) {
-          throw new Error('User not found');
-        }
-
-        return user;
-      } catch (error) {
-        console.error('Error fetching user by username:', error);
-        throw new Error('Error fetching user by username');
+    userById: async (parent, { id }) => {
+      const user = await User.findByPk(id, {
+        include: [
+          { model: Book, as: "savedBooks" },
+          { model: Bookclub, as: "bookClubs" },
+        ],
+      });
+      if (!user) {
+        throw new Error("User not found");
       }
+      return user;
     },
-  },
-};
 
     books: async () => {
       try {
