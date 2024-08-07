@@ -44,7 +44,7 @@ export const ADD_BOOK = gql`
 export const UPDATE_USER = gql`
   mutation updateUser($id: ID!, $email: String!) {
     updateUser(id: $id, email: $email) {
-      _id
+      id
       username
       email
     }
@@ -55,7 +55,7 @@ export const UPDATE_USER = gql`
 export const UPDATE_BOOK = gql`
   mutation updateBook($id: ID!, $summary: String!) {
     updateBook(id: $id, summary: $summary) {
-      _id
+      id
       title
       author
       summary
@@ -67,7 +67,7 @@ export const UPDATE_BOOK = gql`
 export const DELETE_USER = gql`
   mutation deleteUser($id: ID!) {
     deleteUser(id: $id) {
-      _id
+      id
       username
     }
   }
@@ -77,7 +77,7 @@ export const DELETE_USER = gql`
 export const DELETE_BOOK = gql`
   mutation deleteBook($id: ID!) {
     deleteBook(id: $id) {
-      _id
+      id
       title
     }
   }
@@ -87,10 +87,10 @@ export const DELETE_BOOK = gql`
 export const ADD_BOOK_TO_USER = gql`
   mutation addBookToUser($userId: ID!, $bookId: ID!) {
     addBookToUser(userId: $userId, bookId: $bookId) {
-      _id
+      id
       username
       savedBooks {
-        _id
+        id
         title
       }
     }
@@ -101,10 +101,10 @@ export const ADD_BOOK_TO_USER = gql`
 export const REMOVE_BOOK_FROM_USER = gql`
   mutation removeBookFromUser($userId: ID!, $bookId: ID!) {
     removeBookFromUser(userId: $userId, bookId: $bookId) {
-      _id
+      id
       username
       savedBooks {
-        _id
+        id
         title
       }
     }
@@ -115,10 +115,10 @@ export const REMOVE_BOOK_FROM_USER = gql`
 export const ADD_USER_TO_BOOKCLUB = gql`
   mutation addUserToBookClub($userId: ID!, $bookclubId: ID!) {
     addUserToBookClub(userId: $userId, bookclubId: $bookclubId) {
-      _id
+      id
       name
       members {
-        _id
+        id
         username
       }
     }
@@ -129,10 +129,10 @@ export const ADD_USER_TO_BOOKCLUB = gql`
 export const REMOVE_USER_FROM_BOOKCLUB = gql`
   mutation removeUserFromBookClub($userId: ID!, $bookclubId: ID!) {
     removeUserFromBookClub(userId: $userId, bookclubId: $bookclubId) {
-      _id
+      id
       name
       members {
-        _id
+        id
         username
       }
     }
@@ -143,7 +143,7 @@ export const REMOVE_USER_FROM_BOOKCLUB = gql`
 export const UPDATE_BOOK_LIST = gql`
   mutation updateBookList($id: ID!, $name: String!) {
     updateBookList(id: $id, name: $name) {
-      _id
+      id
       name
     }
   }
@@ -153,10 +153,10 @@ export const UPDATE_BOOK_LIST = gql`
 export const ADD_BOOK_TO_LIST = gql`
   mutation addBookToList($listId: ID!, $bookId: ID!) {
     addBookToList(listId: $listId, bookId: $bookId) {
-      _id
+      id
       name
       books {
-        _id
+        id
         title
       }
     }
@@ -167,10 +167,10 @@ export const ADD_BOOK_TO_LIST = gql`
 export const REMOVE_BOOK_FROM_LIST = gql`
   mutation removeBookFromList($listId: ID!, $bookId: ID!) {
     removeBookFromList(listId: $listId, bookId: $bookId) {
-      _id
+      id
       name
       books {
-        _id
+        id
         title
       }
     }

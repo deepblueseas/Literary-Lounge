@@ -43,14 +43,15 @@ const router = createBrowserRouter([
         path: '/works/:id',
         element: <BookDetail />
       }, 
+
+      // {
+      //   path: '/profile',
+      //   element: <StaticProfile />
+      // }, 
       {
         path: '/profile',
-        element: <StaticProfile />
-      }, 
-      {
-        path: '/bookclubs',
-        element: <BookClubsPage />
-      }
+        element: <Profile />
+      },
 
     ]
   }

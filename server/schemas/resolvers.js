@@ -56,35 +56,23 @@ const resolvers = {
       });
     },
 
-    userByUsername: async (_, { username }) => {
-      return User.findOne({
-        where: { username },
-        include: [
-          {
-            model: Book,
-            as: 'savedBooks',
-          },
-          {
-            model: Bookclub,
-            as: 'bookclubs',
-          },
-        ],
-      });
-    },
-    userById: async (_, { userId }) => {
-      return User.findByPk(userId, {
-        include: [
-          {
-            model: Book,
-            as: 'savedBooks',
-          },
-          {
-            model: Bookclub,
-            as: 'bookclubs',
-          },
-        ],
-      });
 
+   userById: async (_, { id }) => {
+      try {
+        const user = await User.findByPk(userId, {
+          include: [
+            { model: Book, as: "savedBooks" },
+            { model: Bookclub, as: "bookClubs" },
+          ],
+        });
+        if (!user) {
+          throw new Error("User not found");
+        }
+        return user;
+      } catch (error) {
+        console.error(error);
+        throw new Error("Failed to fetch user");
+      }
     },
 
     books: async () => {

@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 
-// Important for useQuery: Each query we'd like to be able to perform gets exported out of our queries.js utility
 export const QUERY_USER_BY_ID = gql`
 query UserById($userId: ID!) {
   userById(userId: $userId) {
@@ -17,24 +16,6 @@ query UserById($userId: ID!) {
     }
   }
 }
-`;
-
-export const QUERY_USER_BY_USERNAME = gql`
-  query userByUsername($username: String!) {
-    userByUsername(username: $username) {
-      id
-      username
-      email
-      savedBooks {
-        id
-        title
-      }
-      bookclubs {
-        id
-        name
-      }
-    }
-  }
 `;
 
 
