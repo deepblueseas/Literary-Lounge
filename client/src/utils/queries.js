@@ -47,9 +47,8 @@ export const QUERY_BOOKS = gql`
 // Query to get all book clubs
 export const QUERY_BOOKCLUBS = gql`
   query getBookClubs {
-    bookClubs {
+    Bookclubs {
       id
-      name
       clubName
       description
       location
