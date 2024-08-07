@@ -72,7 +72,7 @@ const Profile = () => {
             ) : (
               <>
                 <Heading size="md" className="no-saved-books-yet">
-                  No book clubs saved yet! Browse below:
+                  No books saved yet! Browse below:
                 </Heading>
                 <BookList books={exampleBooks} />
               </>

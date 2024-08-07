@@ -1,6 +1,6 @@
 import React from 'react';
 import SearchBar from '../components/SearchForm';
-import '../App'; // Import the CSS file for Home component styling
+import '../App'; 
 const Home = () => {
   return (
     <div className="home-container">
