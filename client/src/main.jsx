@@ -11,6 +11,7 @@ import Login from './pages/Login';
 import Error from './pages/Error';
 import BookDetail from './pages/BookDetail';
 import SearchResultsPage from './pages/SearchResultsPage';
+import StaticProfile from './pages/StaticProfile'
 
 const router = createBrowserRouter([
   {
@@ -39,13 +40,13 @@ const router = createBrowserRouter([
         element: <BookDetail />
       }, 
       {
-        path: '/profile/:username',
-        element: <Profile />
-      }, 
-      {
         path: '/profile',
-        element: <Profile />
-      },
+        element: <StaticProfile />
+      }, 
+      // {
+      //   path: '/profile',
+      //   element: <Profile />
+      // },
     ]
   }
 ]);

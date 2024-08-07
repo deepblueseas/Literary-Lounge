@@ -57,7 +57,7 @@ const Header = () => {
           <Flex mt={4}>
             {Auth.loggedIn() ? (
               <>
-                <Button as={Link} to={`/profile/${loggedInUser?.username}`} bg="primary" color="white" variant="outline" m={2}>
+                <Button as={Link} to="/profile" bg="primary" color="white" variant="outline" m={2}>
                   My Profile
                 </Button>
                 <Button as={Link} to="/bookclubs" bg="primary" color="white" m={2}>

@@ -1,22 +1,23 @@
 import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { Spinner, Box, Container, Heading, Text, VStack, Alert, AlertIcon } from '@chakra-ui/react';
-import { QUERY_USER_BY_USERNAME } from '../utils/queries';
+import { Spinner, Box, Container, Heading, Text, Alert, AlertIcon } from '@chakra-ui/react';
+import { QUERY_USER_BY_ID } from '../utils/queries';
 import BookClubList from '../components/BookClubList';
 import BookList from '../components/BookList';
 import Auth from '../utils/auth';
 
 const Profile = () => {
-  const { username } = useParams();
+  const { id } = useParams();
 
-  const { loading, data, error } = useQuery(QUERY_USER_BY_USERNAME, {
-    variables: { username },
+  const { loading, data, error } = useQuery(QUERY_USER_BY_ID, {
+    variables: { id },
   });
 
   const isLoggedIn = Auth.loggedIn();
   const loggedInUser = isLoggedIn ? Auth.getProfile()?.data : null;
   console.log('loggedInUser', loggedInUser);
+  console.log('isLoggedIn', isLoggedIn);
 
   if (loading) {
     return (
@@ -38,20 +39,20 @@ const Profile = () => {
     );
   }
 
-  if (!data?.userByUsername) {
+  if (!data?.userById) {
     return (
       <Container centerContent>
         <Heading as="h4" size="md">
-          User not found. Please check the username or try again later.
+          User not found. Please check the userId or try again later.
         </Heading>
       </Container>
     );
   }
 
-  const user = data.userByUsername;
+  const user = data.userById;
 
   // Redirect if the logged-in user is viewing their own profile
-  if (isLoggedIn && loggedInUser?.username === username) {
+  if (isLoggedIn && loggedInUser?._id === id) {
     return <Navigate to="/profile" />;
   }
 
@@ -70,8 +71,8 @@ const Profile = () => {
           <Heading as="h3" size="md" mb={2}>
             Book Clubs
           </Heading>
-          {user.bookclubs?.length > 0 ? (
-            <BookClubList bookclubs={user.bookclubs} />
+          {user.bookClubs?.length > 0 ? (
+            <BookClubList bookClubs={user.bookClubs} />
           ) : (
             <Text>No book clubs found.</Text>
           )}
