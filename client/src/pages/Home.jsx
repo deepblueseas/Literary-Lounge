@@ -6,7 +6,7 @@ const Home = () => {
     <div className="home-container">
       <h1>Welcome to the Literary Lounge!</h1>
       <SearchBar />
-      <h2>Kick your feet up, find a comfortable place to lounge, and indulge in your new favorite book below!</h2>
+      <h2>Kick your feet up, find a comfortable place to lounge, and indulge in your new favorite book!</h2>
       <div className="content-container">
         <div className="lounge">
           <img src="/images/NewLounger.png" alt="Lounge" />
