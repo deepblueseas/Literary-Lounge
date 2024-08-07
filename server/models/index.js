@@ -11,7 +11,7 @@ Book.belongsToMany(User, { through: UserBook });
 
 //user & bookclub associations
 User.belongsToMany(Bookclub, { through: UserBookclub, as: 'Bookclubs' });
-Bookclub.belongsToMany(User, { through: UserBookclub });
+Bookclub.belongsToMany(User, { through: UserBookclub, as: 'members'});
 
 //bookclub & book associations
 Bookclub.belongsToMany(Book, { through: BookclubBook, as: 'savedBooks' });

@@ -111,20 +111,6 @@ export const REMOVE_BOOK_FROM_USER = gql`
   }
 `;
 
-// Mutation to add a user to a book club
-export const ADD_USER_TO_BOOKCLUB = gql`
-  mutation addUserToBookClub($userId: ID!, $bookclubId: ID!) {
-    addUserToBookClub(userId: $userId, bookclubId: $bookclubId) {
-      id
-      name
-      members {
-        id
-        username
-      }
-    }
-  }
-`;
-
 // Mutation to remove a user from a book club
 export const REMOVE_USER_FROM_BOOKCLUB = gql`
   mutation removeUserFromBookClub($userId: ID!, $bookclubId: ID!) {
@@ -188,7 +174,7 @@ export const CREATE_BOOKCLUB = gql`
     }
   }
 `;
-
+//Mutation to join book club
 export const JOIN_BOOKCLUB = gql`
   mutation JoinBookclub($bookclubId: ID!) {
     joinBookclub(bookclubId: $bookclubId) {
