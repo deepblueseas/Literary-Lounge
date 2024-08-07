@@ -274,25 +274,6 @@ const resolvers = {
     addBookclub: async (_, { clubName, description, location }) => {
       return await Bookclub.create({ clubName, description, location });
     },
-    joinBookclub: async (_, { bookclubId }, context) => {
-      if (context.user) {
-        const user = await User.findByPk(context.user.id);
-        await user.addBookclubs(bookclubId);
-        return user.reload({
-          include: [
-            {
-              model: Book,
-              as: "savedBooks",
-            },
-            {
-              model: Bookclub,
-              as: "bookclubs",
-            },
-          ],
-        });
-      }
-      throw new AuthenticationError("You need to be logged in!");
-    },
     removeBookclub: async (_, { bookclubId }, context) => {
       if (context.user) {
         const user = await User.findByPk(context.user.id);
