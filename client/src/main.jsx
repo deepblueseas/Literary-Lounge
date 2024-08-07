@@ -45,6 +45,11 @@ const router = createBrowserRouter([
         path: '/works/:id',
         element: <BookDetail />
       }, 
+
+      // {
+      //   path: '/profile',
+      //   element: <StaticProfile />
+      // }, 
       {
         path: '/profile',
         element: <Profile />
@@ -53,6 +58,7 @@ const router = createBrowserRouter([
         path: '/bookclubs',
         element: <BookClubsPage />
       }
+
 
     ]
   }

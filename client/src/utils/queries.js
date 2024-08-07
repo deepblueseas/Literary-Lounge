@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client';
 
-// Important for useQuery: Each query we'd like to be able to perform gets exported out of our queries.js utility
 export const QUERY_USER_BY_ID = gql`
 query UserById($userId: ID!) {
   userById(userId: $userId) {
