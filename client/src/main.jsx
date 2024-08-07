@@ -9,8 +9,12 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Error from './pages/Error';
-import BookDetail from './pages/BookDetail';
+
+import BookDetail from './pages/BookDetail.jsx'
+import BookClubsPage from './pages/BookClubsPage.jsx';
+
 import SearchResultsPage from './pages/SearchResultsPage';
+
 
 const router = createBrowserRouter([
   {
@@ -45,7 +49,12 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile />
-      },
+      }, {
+        path: '/bookclubs',
+        element: <BookClubsPage />
+      }
+     
+
     ]
   }
 ]);
