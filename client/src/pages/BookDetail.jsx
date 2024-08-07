@@ -66,6 +66,26 @@ const BookDetail = () => {
   if (error) return <Text>Error loading book details: {error}</Text>;
 
   return (
+    <Box p={4}>
+      <Container maxW="container.lg">
+        {loading ? (
+          <Flex justify="center" align="center" height="100vh">
+            <Spinner size="lg" />
+          </Flex>
+        ) : error ? (
+          <Text color="red.500">{error}</Text>
+        ) : book ? (
+          <Box>
+            <Heading mb={4}>{book.title}</Heading>
+            <Image src={book.cover} alt={book.title} boxSize="200px" objectFit="cover" mb={4} />
+            <Text fontSize="lg" mb={2}><strong>Author:</strong> {book.author}</Text>
+            <Text mb={4}><strong>Description:</strong> {book.description}</Text>
+          </Box>
+        ) : (
+          <Text>No book details found!</Text>
+        )}
+      </Container>
+    </Box>
     <Container maxW="container.lg">
       {book && (
         <Box>
