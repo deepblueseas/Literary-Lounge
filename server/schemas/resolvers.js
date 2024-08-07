@@ -56,23 +56,8 @@ const resolvers = {
       });
     },
 
-    userByUsername: async (_, { username }) => {
-      return User.findOne({
-        where: { username },
-        include: [
-          {
-            model: Book,
-            as: 'savedBooks',
-          },
-          {
-            model: Bookclub,
-            as: 'bookclubs',
-          },
-        ],
-      });
-    },
-    userById: async (_, { userId }) => {
-      return User.findByPk(userId, {
+    userById: async (_, { id }) => {
+      return User.findByPk(id, {
         include: [
           {
             model: Book,
@@ -137,25 +122,8 @@ const resolvers = {
         summary: book.first_sentence?.[0] || "No description available",
       }));
     },
-
-    me: async (_, __, context) => {
-      if (context.user) {
-        return User.findByPk(context.user.id, {
-          include: [
-            {
-              model: Book,
-              as: 'savedBooks',
-            },
-            {
-              model: Bookclub,
-              as: 'bookclubs',
-            },
-          ],
-        });
-      }
-      throw new AuthenticationError("Not logged in");
-    },
   },
+
 
 
 
