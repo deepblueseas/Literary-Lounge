@@ -14,6 +14,7 @@ import BookDetail from './pages/BookDetail.jsx'
 import BookClubsPage from './pages/BookClubsPage.jsx';
 
 import SearchResultsPage from './pages/SearchResultsPage';
+import StaticProfile from './pages/StaticProfile'
 
 
 const router = createBrowserRouter([
@@ -43,17 +44,13 @@ const router = createBrowserRouter([
         element: <BookDetail />
       }, 
       {
-        path: '/profile/:username',
-        element: <Profile />
+        path: '/profile',
+        element: <StaticProfile />
       }, 
       {
-        path: '/profile',
-        element: <Profile />
-      }, {
         path: '/bookclubs',
         element: <BookClubsPage />
       }
-     
 
     ]
   }

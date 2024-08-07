@@ -1,10 +1,11 @@
 import React from 'react';
-// import SearchBar from 'SearchForm'; // Adjust the import path as necessary
+import SearchBar from '../components/SearchForm';
 import '../App'; // Import the CSS file for Home component styling
 const Home = () => {
   return (
     <div className="home-container">
       <h1>Welcome to the Literary Lounge!</h1>
+      <SearchBar />
       <h2>Kick your feet up, find a comfortable place to lounge, and indulge in your new favorite book below!</h2>
       <div className="content-container">
         <div className="lounge">
@@ -14,7 +15,6 @@ const Home = () => {
           <img src="/images/Greenandbluebooks.jpg" alt="Book" />
         </div>
       </div>
-        {/* <SearchBar /> */}
       </div>
   );
 };

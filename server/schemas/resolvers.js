@@ -55,6 +55,7 @@ const resolvers = {
 
       });
     },
+
     userByUsername: async (_, { username }) => {
       return User.findOne({
         where: { username },
@@ -83,6 +84,7 @@ const resolvers = {
           },
         ],
       });
+
     },
 
     books: async () => {
