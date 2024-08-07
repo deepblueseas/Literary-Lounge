@@ -68,8 +68,9 @@ export const QUERY_BOOKCLUBS = gql`
   query getBookClubs {
     bookClubs {
       _id
-      name
+      clubName
       description
+      location
     }
   }
 `;
