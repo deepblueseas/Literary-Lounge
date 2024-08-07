@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams, Navigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { Spinner, Box, Container, Heading, Text, Alert, AlertIcon } from '@chakra-ui/react';
-import { QUERY_USER_BY_ID } from '../utils/queries';
+import { GET_ME } from '../utils/queries';
 import BookClubList from '../components/BookClubList';
 import BookList from '../components/BookList';
 import Auth from '../utils/auth';
@@ -10,16 +10,10 @@ import Auth from '../utils/auth';
 const Profile = () => {
   const { userId } = useParams();
 
-  const { loading, data, error } = useQuery(QUERY_USER_BY_ID, {
-    variables: { userId: userId },
-  });
-
+  const { loading, data, error } = useQuery(GET_ME);
 
   const isLoggedIn = Auth.loggedIn();
   const loggedInUser = isLoggedIn ? Auth.getProfile()?.data : null;
-  console.log('loggedInUser', loggedInUser);
-  console.log('isLoggedIn', isLoggedIn);
-  
 
   if (loading) {
     return (
@@ -40,8 +34,8 @@ const Profile = () => {
       </Container>
     );
   }
-
-  if (!data?.userById) {
+console.log(data)
+  if (!data?.me) {
     return (
       <Container centerContent>
         <Heading as="h4" size="md">
@@ -51,14 +45,12 @@ const Profile = () => {
     );
   }
 
+  const user = data.me;
 
-  const user = data.userById;
-
-  // Redirect if the logged-in user is viewing their own profile
-  if (isLoggedIn && loggedInUser?.userId === userId) {
-    return <Navigate to="/profile" />;
-  }
-
+  // // Redirect if the logged-in user is viewing their own profile
+  // if (isLoggedIn && loggedInUser?.userId === userId) {
+  //   return <Navigate to="/profile" />;
+  // }
 
   return (
     <Container centerContent>
@@ -75,8 +67,8 @@ const Profile = () => {
           <Heading as="h3" size="md" mb={2}>
             Book Clubs
           </Heading>
-          {user.bookClubs?.length > 0 ? (
-            <BookClubList bookClubs={user.bookClubs} />
+          {user.bookclubs?.length > 0 ? (
+            <BookClubList bookclubs={user.bookclubs} />
           ) : (
             <Text>No book clubs found.</Text>
           )}

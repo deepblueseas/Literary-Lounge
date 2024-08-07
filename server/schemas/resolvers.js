@@ -121,10 +121,29 @@ const resolvers = {
         summary: book.first_sentence?.[0] || "No description available",
       }));
     },
+    me: async (parent, args, context) => {
+      console.log(context.user)
+      if (context.user) {
+        let user = User.findByPk(context.user.id, {
+          include: [
+            {
+              model: Book,
+              as: 'savedBooks',
+            },
+            {
+              model: Bookclub,
+              as: 'bookclubs',
+            },
+          ],
+        })
+        console.log(user)
+        return(
+          user
+        )
+      };
+      throw new AuthenticationError("Not logged in");
+    },
   },
-
-
-
 
   Mutation: {
     login: async (_, { email, password }) => {
@@ -165,16 +184,6 @@ const resolvers = {
         throw new Error("Error adding user");
       }
     },
-
-    me: async (parent, args, context) => {
-      if (context.user) {
-        return User.findById(context.user._id)
-          .populate("savedBooks")
-          .populate("bookClubs");
-      }
-      throw new AuthenticationError("Not logged in");
-    },
-
 
 
     addBook: async (_, { title, authors, description, genre, summary, datePublished }) => {
