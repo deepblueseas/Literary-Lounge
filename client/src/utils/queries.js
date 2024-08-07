@@ -2,22 +2,41 @@ import { gql } from '@apollo/client';
 
 // Important for useQuery: Each query we'd like to be able to perform gets exported out of our queries.js utility
 export const QUERY_USER_BY_ID = gql`
-  query userById($userId: ID!) {
-    userById(userId: $userId) {
+ query UserById($userId: ID!) {
+  userById(userId: $userId) {
+    _id
+    username
+    email
+    savedBooks {
       _id
+      title
+    }
+    bookClubs {
+      _id
+      name
+    }
+  }
+}
+`;
+
+export const QUERY_USER_BY_USERNAME = gql`
+  query userByUsername($username: String!) {
+    userByUsername(username: $username) {
+      id
       username
       email
       savedBooks {
-        _id
+        id
         title
       }
-      bookClubs {
-        _id
+      bookclubs {
+        id
         name
       }
     }
   }
 `;
+
 
 // Query to get all users
 export const QUERY_USERS = gql`
@@ -30,23 +49,6 @@ export const QUERY_USERS = gql`
   }
 `;
 
-export const QUERY_ME = gql`
-  query me {
-    me {
-      _id
-      username
-      email
-      savedBooks {
-        _id
-        title
-      }
-      bookClubs {
-        _id
-        name
-      }
-    }
-  }
-`;
 
 // Query to get all books
 export const QUERY_BOOKS = gql`

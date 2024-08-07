@@ -1,52 +1,38 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-
-const notFoundImage = '/images/noPhoto.jpg';
+import { useNavigate } from 'react-router-dom';
+import { Box, Button, Input, Flex } from '@chakra-ui/react';
 
 const SearchBar = () => {
   const [query, setQuery] = useState('');
-  const [books, setBooks] = useState([]);
+  const navigate = useNavigate();
 
   const handleSearch = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.get(`https://openlibrary.org/search.json?q=${query}`);
-      const booksData = response.data.docs.map(book => ({
-        id: book.key,
-        title: book.title,
-        cover: book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg` : notFoundImage,
-        author: book.author_name ? book.author_name.join(', ') : 'Unknown',
-        description: book.first_sentence ? book.first_sentence.join(' ') : 'No description available'
-      }));
-      setBooks(booksData);
-    } catch (error) {
-      console.error("Error fetching books:", error);
+    if (query.trim()) {
+      navigate(`/search?query=${encodeURIComponent(query)}`);
     }
   };
 
   return (
-    <div>
+    <Box p={4}>
       <form onSubmit={handleSearch}>
-        <input 
-          type="text" 
-          value={query} 
-          onChange={(e) => setQuery(e.target.value)} 
-          placeholder="Search for books..." 
-        />
-        <button type="submit">Search</button>
+        <Flex align="center">
+          <Input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search for books..."
+            variant="outline"
+            mr={2}
+            size="lg"
+            w={{ base: '100%', md: 'auto' }}
+          />
+          <Button type="submit" bg="primary" color="white" size="lg">
+            Search
+          </Button>
+        </Flex>
       </form>
-      <div>
-        {books.map((book) => (
-          <div key={book.id} style={{ margin: '20px' }}>
-            <Link to={`/book/${book.id}`}>
-              <img src={book.cover} alt={book.title} style={{ width: '100px', height: '150px' }} />
-            </Link>
-            <p>{book.title}</p>
-          </div>
-        ))}
-      </div>
-    </div>
+    </Box>
   );
 };
 

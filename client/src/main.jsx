@@ -3,14 +3,18 @@ import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 
-import App from './App.jsx';
+import App from './App';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Error from './pages/Error';
+
 import BookDetail from './pages/BookDetail.jsx'
 import BookClubsPage from './pages/BookClubsPage.jsx';
+
+import SearchResultsPage from './pages/SearchResultsPage';
+
 
 const router = createBrowserRouter([
   {
@@ -29,24 +33,28 @@ const router = createBrowserRouter([
       {
         path: '/signup',
         element: <Signup />
-
-      }, {
-        path: '/BookDetail',
-        element: <BookDetail />
-
-        //edit these based on pages we set up
-      }, {
-        path: '/me',
-        element: <Profile />
       },
       {
-        path: '/profiles/:userId',
+        path: '/search',
+        element: <SearchResultsPage />
+      },
+      {
+        path: '/works/:id',
+        element: <BookDetail />
+      }, 
+      {
+        path: '/profile/:username',
+        element: <Profile />
+      }, 
+      {
+        path: '/profile',
         element: <Profile />
       }, {
         path: '/bookclubs',
         element: <BookClubsPage />
       }
      
+
     ]
   }
 ]);

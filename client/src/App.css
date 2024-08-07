@@ -1,0 +1,75 @@
+/* Home.css */
+.home-container {
+    text-align: center;
+    padding-top: 50px;
+  }
+  
+  .home-container h1 {
+    font-weight: bold;
+    color: #35adb6; /* Choose your desired color */
+    font-size: 3em; /* Adjust size as needed */
+    margin-bottom: 20px; /* Add some spacing below the h1 */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* Add shadow for standout effect */
+  }
+  
+  .home-container h2 {
+    font-weight: bold;
+    color: #6abb75; /* Choose your desired color */
+    font-size: 2em; /* Adjust size as needed */
+    margin-bottom: 30px; /* Add some spacing below the h2 */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); /* Add shadow for standout effect */
+  }
+  
+  .content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+  }
+  
+  .lounge img, .book img {
+    width: 100%;
+    max-width: 600px; /* Adjust as needed */
+    height: auto;
+    border-radius: 10px; /* Optional for rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional for a slight shadow */
+  }
+  
+  .search-container {
+    margin-top: 40px; /* Add spacing above the search container */
+  }
+  
+  form {
+    display: flex;
+    justify-content: center;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #097efccb;
+    color: rgb(34, 219, 219);
+    cursor: pointer;
+    border-radius: 4px;
+    margin-left: 10px;
+  }
+  
+  button:hover {
+    background-color: #6fabeb;
+    color: white;
+  }
+
+  .lounge, .book {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
