@@ -14,10 +14,13 @@ const Profile = () => {
     variables: { userId: userId },
   });
 
+
   const isLoggedIn = Auth.loggedIn();
   const loggedInUser = isLoggedIn ? Auth.getProfile()?.data : null;
   console.log('loggedInUser', loggedInUser);
   console.log('isLoggedIn', isLoggedIn);
+  
+  const user = data?.user || {};
 
   if (loading) {
     return (
@@ -49,12 +52,14 @@ const Profile = () => {
     );
   }
 
+
   const user = data.userById;
 
   // Redirect if the logged-in user is viewing their own profile
   if (isLoggedIn && loggedInUser?.userId === userId) {
     return <Navigate to="/profile" />;
   }
+
 
   return (
     <Container centerContent>

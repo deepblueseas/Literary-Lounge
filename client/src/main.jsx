@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
+import './App.css';
+import './theme.js';
 
 import App from './App';
 import Home from './pages/Home';
@@ -51,7 +53,12 @@ const router = createBrowserRouter([
       {
         path: '/profile',
         element: <Profile />
-      },
+      }, 
+      {
+        path: '/bookclubs',
+        element: <BookClubsPage />
+      }
+
 
     ]
   }

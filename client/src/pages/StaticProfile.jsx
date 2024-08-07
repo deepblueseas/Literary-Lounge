@@ -6,10 +6,10 @@ import BookList from '../components/BookList';
 const Profile = () => {
   // Static dummy data
   const dummyUser = {
-    username: 'JaneDoe',
+    username: 'adventure_seeker',
     savedBooks: [
-      { _id: '1', title: 'Book One' },
-      { _id: '2', title: 'Book Two' },
+      { _id: '1', title: '1984' },
+      { _id: '2', title: 'The Lord of the Rings' },
     ],
     bookClubs: [
       { _id: '1', name: 'Book Club A' },
