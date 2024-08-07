@@ -69,7 +69,7 @@ const BookClubForm = () => {
             />
         </FormControl>
         <Button type="submit" colorScheme="teal">
-          Create Book Club
+          Create 
         </Button>
         {error && (
           <Alert status="error" mt={4}>
