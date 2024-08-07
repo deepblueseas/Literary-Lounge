@@ -1,40 +1,21 @@
 import { gql } from '@apollo/client';
 
-// Important for useQuery: Each query we'd like to be able to perform gets exported out of our queries.js utility
 export const QUERY_USER_BY_ID = gql`
 query UserById($userId: ID!) {
   userById(userId: $userId) {
-    _id
+    id
     username
     email
     savedBooks {
-      _id
+      id
       title
     }
     bookClubs {
-      _id
+      id
       name
     }
   }
 }
-`;
-
-export const QUERY_USER_BY_USERNAME = gql`
-  query userByUsername($username: String!) {
-    userByUsername(username: $username) {
-      id
-      username
-      email
-      savedBooks {
-        id
-        title
-      }
-      bookclubs {
-        id
-        name
-      }
-    }
-  }
 `;
 
 
@@ -42,7 +23,7 @@ export const QUERY_USER_BY_USERNAME = gql`
 export const QUERY_USERS = gql`
   query getUsers {
     users {
-      _id
+      id
       username
       email
     }
@@ -54,7 +35,7 @@ export const QUERY_USERS = gql`
 export const QUERY_BOOKS = gql`
   query getBooks {
     books {
-      _id
+      id
       title
       author
       genre
@@ -67,7 +48,7 @@ export const QUERY_BOOKS = gql`
 export const QUERY_BOOKCLUBS = gql`
   query getBookClubs {
     bookClubs {
-      _id
+      id
       name
       description
     }
@@ -78,7 +59,7 @@ export const QUERY_BOOKCLUBS = gql`
 export const QUERY_SINGLE_BOOK = gql`
   query getSingleBook($bookId: ID!) {
     book(bookId: $bookId) {
-      _id
+      id
       title
       author
       genre
@@ -92,15 +73,15 @@ export const QUERY_SINGLE_BOOK = gql`
 export const QUERY_SINGLE_BOOKCLUB = gql`
   query getSingleBookClub($bookclubId: ID!) {
     bookClub(bookclubId: $bookclubId) {
-      _id
+      id
       name
       description
       members {
-        _id
+        id
         username
       }
       savedBooks {
-        _id
+        id
         title
       }
     }

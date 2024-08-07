@@ -39,14 +39,14 @@ const router = createBrowserRouter([
         path: '/works/:id',
         element: <BookDetail />
       }, 
-      {
-        path: '/profile',
-        element: <StaticProfile />
-      }, 
       // {
       //   path: '/profile',
-      //   element: <Profile />
-      // },
+      //   element: <StaticProfile />
+      // }, 
+      {
+        path: '/profile',
+        element: <Profile />
+      },
     ]
   }
 ]);
