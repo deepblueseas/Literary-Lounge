@@ -50,7 +50,9 @@ export const QUERY_BOOKCLUBS = gql`
     bookClubs {
       id
       name
+      clubName
       description
+      location
     }
   }
 `;

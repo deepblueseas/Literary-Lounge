@@ -9,9 +9,13 @@ import Profile from './pages/Profile';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
 import Error from './pages/Error';
-import BookDetail from './pages/BookDetail';
+
+import BookDetail from './pages/BookDetail.jsx'
+import BookClubsPage from './pages/BookClubsPage.jsx';
+
 import SearchResultsPage from './pages/SearchResultsPage';
 import StaticProfile from './pages/StaticProfile'
+
 
 const router = createBrowserRouter([
   {
@@ -39,6 +43,7 @@ const router = createBrowserRouter([
         path: '/works/:id',
         element: <BookDetail />
       }, 
+
       // {
       //   path: '/profile',
       //   element: <StaticProfile />
@@ -47,6 +52,7 @@ const router = createBrowserRouter([
         path: '/profile',
         element: <Profile />
       },
+
     ]
   }
 ]);
