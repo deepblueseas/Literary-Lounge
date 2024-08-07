@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import { Box, Heading, Text, Image, Spinner, Flex, Container } from '@chakra-ui/react';
+import { Box, Heading, Text, Image, Spinner, Flex, Container, Button } from '@chakra-ui/react';
+import { gql, useMutation } from '@apollo/client';
+
+const ADD_TO_READING_LIST = gql`
+  mutation AddToReadingList($bookId: ID!) {
+    addToReadingList(bookId: $bookId) {
+      id
+      savedBooks {
+        id
+        title
+      }
+    }
+  }
+`;
 
 const notFoundImage = '/images/noPhoto.jpg';
 
@@ -10,6 +23,7 @@ const BookDetail = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { id } = useParams();
+  const [addToReadingList, { data, loading: adding, error: addToReadingListError }] = useMutation(ADD_TO_READING_LIST);
 
   useEffect(() => {
     const fetchBook = async () => {
@@ -24,9 +38,10 @@ const BookDetail = () => {
           description: response.data.description ? response.data.description.value : 'No description available'
         };
         setBook(bookData);
-      } catch (error) {
-        setError(`Error fetching book details: ${error.response ? error.response.data : error.message}`);
-        console.error("Error fetching book details:", error);
+        console.log("Book details fetched successfully:", bookData);
+      } catch (fetchError) {
+        setError(`Error fetching book details: ${fetchError.response ? fetchError.response.data : fetchError.message}`);
+        console.error("Error fetching book details:", fetchError);
       } finally {
         setLoading(false);
       }
@@ -34,6 +49,21 @@ const BookDetail = () => {
 
     fetchBook();
   }, [id]);
+
+  const handleAddToReadingList = async () => {
+    try {
+      await addToReadingList({ variables: { bookId: book.id } });
+      console.log("Book added to reading list:", data);
+      if (addToReadingListError) {
+        console.error("Error adding book to reading list:", addToReadingListError);
+      }
+    } catch (mutationError) {
+      console.error("Error during mutation:", mutationError);
+    }
+  };
+
+  if (loading) return <Spinner />;
+  if (error) return <Text>Error loading book details: {error}</Text>;
 
   return (
     <Box p={4}>
@@ -56,6 +86,20 @@ const BookDetail = () => {
         )}
       </Container>
     </Box>
+    <Container maxW="container.lg">
+      {book && (
+        <Box>
+          <Heading mb={4}>{book.title}</Heading>
+          <Image src={book.cover} alt={book.title} boxSize="200px" objectFit="cover" mb={4} />
+          <Text fontSize="lg" mb={2}><strong>Author:</strong> {book.author}</Text>
+          <Text mb={4}><strong>Description:</strong> {book.description}</Text>
+          <Button colorScheme="green" onClick={handleAddToReadingList} isLoading={adding}>
+            Add to Reading List
+          </Button>
+          {addToReadingListError && <Text color="red.500">Error adding book to reading list: {addToReadingListError.message}</Text>}
+        </Box>
+      )}
+    </Container>
   );
 };
 

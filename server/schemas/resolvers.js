@@ -271,6 +271,30 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
+    addToReadingList: async (_, { bookId }, context) => {
+      console.log(context.user);
+      console.log(hello); 
+      if (!context.user) {
+        throw new AuthenticationError("hello");
+      }
+      const user = await User.findByPk(context.user.id);
+      if (!user) {
+        throw new Error("User not found");
+      }
+      const book = await Book.findByPk(bookId);
+      if (!book) {
+        throw new Error("Book not found");
+      }
+      await user.addSavedBooks(book);
+      return user.reload({
+        include: [
+          {
+            model: Book,
+            as: "savedBooks",
+          },
+        ],
+      });
+    },
   },
 };
 
