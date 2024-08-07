@@ -79,8 +79,6 @@ const typeDefs = gql`
     Bookclubs: [Bookclub]
     Bookclub(id: ID!): Bookclub
     searchBooks(query: String!): [Book]
-    me: User
-    user: User
   }
 
 
