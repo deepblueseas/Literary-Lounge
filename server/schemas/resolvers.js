@@ -274,7 +274,7 @@ const resolvers = {
     addBookclub: async (_, { clubName, description, location }) => {
       return await Bookclub.create({ clubName, description, location });
     },
-    saveBookclub: async (_, { bookclubId }, context) => {
+    joinBookclub: async (_, { bookclubId }, context) => {
       if (context.user) {
         const user = await User.findByPk(context.user.id);
         await user.addBookclubs(bookclubId);
