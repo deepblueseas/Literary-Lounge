@@ -29,10 +29,9 @@ const BookList = () => {
       <Heading as="h2" size="lg" mb={5}>Books</Heading>
       <UnorderedList>
         {data.books.map(({ id, title, author }) => (
-          <ListItem key={id} mb={2}>
+          <ListItem key={book.id} mb={2}>
             <Text  fontWeight="bold">{title}</Text>
             <Text>by {author}</Text>
-             
           </ListItem>
         ))}
       </UnorderedList>
