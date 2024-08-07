@@ -6,14 +6,13 @@ export default defineConfig({
     react(), 
   ],
   server: {
-    port: 3000,
+    port: 3001,
     open: true,
     proxy: {
       '/graphql': {
         target: 'http://localhost:3001',
         secure: false,
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/graphql/, '/graphql'),
        
       },
     },
