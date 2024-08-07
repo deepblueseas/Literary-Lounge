@@ -2,14 +2,12 @@ import React from 'react';
 import { useMutation, useQuery } from '@apollo/client';
 import { QUERY_BOOKCLUBS } from '../utils/queries';
 import { JOIN_BOOKCLUB } from '../utils/mutations';
-
 import {
   Box,
   Button,
   Heading,
   Text,
-  UnorderedList,
-  ListItem,
+  Grid,
   Spinner,
   Alert,
   AlertIcon,
@@ -40,25 +38,36 @@ const BookClubList = () => {
       <AlertIcon />
       Error fetching book clubs
     </Alert>
-  )
+  );
 
   return (
-    <Box maxWidth="600px" mx="auto" mt={5} p={5} borderWidth="1px" borderRadius="lg">
+    <Box maxWidth="100%" mx="auto" mt={5} p={5} borderWidth="1px" borderRadius="lg">
       <Heading as="h2" size="lg" mb={5}>Put the Club in the Books</Heading>
-      <UnorderedList>
+      <Grid templateColumns="repeat(auto-fill, minmax(200px, 1fr))" gap={6}>
         {data.Bookclubs.map(({ id, clubName, description, location }) => (
-          <ListItem key={id} mb={2}>
-            <Text fontWeight="bold">{clubName}</Text>
-            <Text>{description}</Text>
-            <Text fontWeight="bold">Location:</Text>
-            <Text>{location}</Text>
-            <Button mt={2} colorScheme="teal" onClick={() => handleJoin(id)}>
+          <Box 
+            key={id} 
+            p={4} 
+            borderWidth="1px" 
+            borderRadius="md" 
+            bg="white" 
+            boxShadow="sm" 
+            display="flex"
+            flexDirection="column"
+            alignItems="flex-start"
+          >
+            <Text fontWeight="bold" mb={2}>{clubName}</Text>
+            <Text mb={2}>{description}</Text>
+            <Text fontWeight="bold" mb={2}>Location:</Text>
+            <Text mb={4}>{location}</Text>
+            <Button mt="auto" colorScheme="teal" onClick={() => handleJoin(id)}>
               Join Book Club
             </Button>
-          </ListItem>
+          </Box>
         ))}
-      </UnorderedList>
+      </Grid>
     </Box>
   );
 };
+
 export default BookClubList;
