@@ -20,7 +20,6 @@ const Profile = () => {
   console.log('loggedInUser', loggedInUser);
   console.log('isLoggedIn', isLoggedIn);
   
-  const user = data?.user || {};
 
   if (loading) {
     return (
