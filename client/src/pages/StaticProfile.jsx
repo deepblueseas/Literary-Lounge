@@ -23,6 +23,9 @@ const Profile = () => {
         <Heading as="h2" size="lg" mb={4} textAlign="center">
           {dummyUser.username}'s saved books and book clubs
         </Heading>
+        <Heading as="h3" size="md" mb={2}>
+        Saved Books
+        </Heading>
         {dummyUser.savedBooks?.length > 0 ? (
           <BookList savedBooks={dummyUser.savedBooks} />
         ) : (
