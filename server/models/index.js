@@ -10,7 +10,7 @@ User.belongsToMany(Book, { through: UserBook, as: 'savedBooks' });
 Book.belongsToMany(User, { through: UserBook });
 
 //user & bookclub associations
-User.belongsToMany(Bookclub, { through: UserBookclub, as: 'Bookclubs' });
+User.belongsToMany(Bookclub, { through: UserBookclub, as: 'bookclubs' });
 Bookclub.belongsToMany(User, { through: UserBookclub, as: 'members'});
 
 //bookclub & book associations

@@ -100,3 +100,20 @@ export const SEARCH_BOOKS = gql`
     }
   }
 `;
+
+export const GET_ME = gql`
+ query GetMe {
+  me {
+    id
+    username
+    savedBooks {
+      id
+      title
+    }
+    bookclubs {
+      id
+      clubName
+    }
+  }
+}
+`;

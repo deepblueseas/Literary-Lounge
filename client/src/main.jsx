@@ -52,7 +52,7 @@ const router = createBrowserRouter([
       // }, 
       {
         path: '/profile',
-        element: <StaticProfile />
+        element: <Profile />
       }, 
       {
         path: '/bookclubs',
