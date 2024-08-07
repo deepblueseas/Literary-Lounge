@@ -26,6 +26,9 @@ const SearchBar = () => {
             mr={2}
             size="lg"
             w={{ base: '100%', md: 'auto' }}
+            bg="white"            // White background
+            color="black"         // Text color for readability
+            borderColor="gray.300"
           />
           <Button type="submit" bg="primary" color="white" size="lg">
             Search

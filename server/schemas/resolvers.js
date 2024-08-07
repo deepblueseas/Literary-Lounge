@@ -57,6 +57,22 @@ const resolvers = {
     },
 
 
+    userById: async (_, { id }) => {
+      return User.findByPk(id, {
+        include: [
+          {
+            model: Book,
+            as: 'savedBooks',
+          },
+          {
+            model: Bookclub,
+            as: 'bookclubs',
+          },
+        ],
+      });
+    },
+
+
    userById: async (_, { id }) => {
       try {
         const user = await User.findByPk(userId, {
@@ -125,25 +141,8 @@ const resolvers = {
         summary: book.first_sentence?.[0] || "No description available",
       }));
     },
-
-    me: async (_, __, context) => {
-      if (context.user) {
-        return User.findByPk(context.user.id, {
-          include: [
-            {
-              model: Book,
-              as: 'savedBooks',
-            },
-            {
-              model: Bookclub,
-              as: 'bookclubs',
-            },
-          ],
-        });
-      }
-      throw new AuthenticationError("Not logged in");
-    },
   },
+
 
 
 
