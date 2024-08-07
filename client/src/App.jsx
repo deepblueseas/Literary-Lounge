@@ -8,9 +8,9 @@ import Footer from './components/Footer';
 import customTheme from './theme';
 
 // if not included vite throws an http proxy error
-// const httpLink = createHttpLink({
-//   uri: '/graphql',
-// });
+const httpLink = createHttpLink({
+  uri: '/graphql',
+});
 
 // Construct request middleware that will attach the JWT token to every request as an `authorization` header
 const authLink = setContext((_, { headers }) => {
