@@ -56,7 +56,6 @@ const resolvers = {
       });
     },
 
-
     userById: async (_, { id }) => {
       return User.findByPk(id, {
         include: [
