@@ -51,12 +51,14 @@ const typeDefs = gql`
     user_id: String!
     book_id: String!
   }
-    input BookclubBook {
+  
+  input BookclubBook {
     id: ID!
     book_id: String!
     bookclub_id: String!
   }
-    input BookclubInput {
+  
+  input BookclubInput {
     id: ID!
     clubName: String!
     description: String!
@@ -69,7 +71,6 @@ const typeDefs = gql`
     user: User
   }
 
-
   type Query {
     users: [User]
     user(username: String!): User
@@ -79,8 +80,8 @@ const typeDefs = gql`
     Bookclubs: [Bookclub]
     Bookclub(id: ID!): Bookclub
     searchBooks(query: String!): [Book]
+    me: User
   }
-
 
   type Mutation {
     login(email: String!, password: String!): Auth
@@ -93,6 +94,7 @@ const typeDefs = gql`
     saveBookclub(bookclubId: ID): User
     removeBookclub(bookclubId: ID!): User
     joinBookclub(bookclubId: ID!): Bookclub
+    addToReadingList(bookId: ID!): User
     me: User
   }
 `;
