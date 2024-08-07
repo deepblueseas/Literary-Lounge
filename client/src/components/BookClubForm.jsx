@@ -68,7 +68,15 @@ const BookClubForm = () => {
             required
             />
         </FormControl>
-        <Button type="submit" colorScheme="teal">
+        <Button
+          type="submit"
+          colorScheme="teal"
+          width="full"  
+
+          mt={8}  
+          px={8} 
+          py={4}
+        >
           Create Book Club
         </Button>
         {error && (
