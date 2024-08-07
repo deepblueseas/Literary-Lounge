@@ -89,7 +89,7 @@ const typeDefs = gql`
     deleteBook(id: ID!): Book
     saveBook(bookId: ID!): User
     removeBook(bookId: ID!): User
-    addBookclub(clubName: String!, description: String!, location: String): Bookclub
+    addBookclub(clubName: String!, description: String!, location: String): Bookclub    
     saveBookclub(bookclubId: ID): User
     removeBookclub(bookclubId: ID!): User
     joinBookclub(bookclubId: ID!): Bookclub
