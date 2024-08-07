@@ -80,6 +80,7 @@ const typeDefs = gql`
     Bookclub(id: ID!): Bookclub
     searchBooks(query: String!): [Book]
     me: User
+    user: User
   }
 
 
