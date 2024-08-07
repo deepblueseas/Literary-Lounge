@@ -8,16 +8,18 @@ import BookList from '../components/BookList';
 import Auth from '../utils/auth';
 
 const Profile = () => {
-  const { id } = useParams();
+  const { userId } = useParams();
 
   const { loading, data, error } = useQuery(QUERY_USER_BY_ID, {
-    variables: { id },
+    variables: { userId: userId },
   });
+
 
   const isLoggedIn = Auth.loggedIn();
   const loggedInUser = isLoggedIn ? Auth.getProfile()?.data : null;
   console.log('loggedInUser', loggedInUser);
   console.log('isLoggedIn', isLoggedIn);
+  
 
   if (loading) {
     return (
@@ -49,12 +51,14 @@ const Profile = () => {
     );
   }
 
+
   const user = data.userById;
 
   // Redirect if the logged-in user is viewing their own profile
-  if (isLoggedIn && loggedInUser?._id === id) {
+  if (isLoggedIn && loggedInUser?.userId === userId) {
     return <Navigate to="/profile" />;
   }
+
 
   return (
     <Container centerContent>

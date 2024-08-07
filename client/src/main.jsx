@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
+import './App.css';
+import './theme.js';
 
 import App from './App';
 import Home from './pages/Home';
@@ -43,6 +45,11 @@ const router = createBrowserRouter([
         path: '/works/:id',
         element: <BookDetail />
       }, 
+
+      // {
+      //   path: '/profile',
+      //   element: <StaticProfile />
+      // }, 
       {
         path: '/profile',
         element: <StaticProfile />
@@ -51,6 +58,7 @@ const router = createBrowserRouter([
         path: '/bookclubs',
         element: <BookClubsPage />
       }
+
 
     ]
   }

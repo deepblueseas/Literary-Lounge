@@ -18,24 +18,6 @@ query UserById($userId: ID!) {
 }
 `;
 
-export const QUERY_USER_BY_USERNAME = gql`
-  query userByUsername($username: String!) {
-    userByUsername(username: $username) {
-      id
-      username
-      email
-      savedBooks {
-        id
-        title
-      }
-      bookclubs {
-        id
-        name
-      }
-    }
-  }
-`;
-
 
 // Query to get all users
 export const QUERY_USERS = gql`

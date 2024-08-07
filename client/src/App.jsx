@@ -7,7 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import customTheme from './theme';
 
-// Construct our main GraphQL API endpoint
+// if not included vite throws an http proxy error
 const httpLink = createHttpLink({
   uri: '/graphql',
 });
@@ -25,7 +25,7 @@ const authLink = setContext((_, { headers }) => {
 
 // Create Apollo Client
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  uri: '/graphql',
   cache: new InMemoryCache(),
 });
 
