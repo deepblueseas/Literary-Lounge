@@ -44,6 +44,18 @@
   .search-container {
     margin-top: 40px; /* Add spacing above the search container */
   }
+
+  .search-bar-container {
+    display: flex;
+    justify-content: center;
+    margin-left: 100px;
+  }
+
+  .search-bar {
+    background-color: white; /* Change background to white */
+    color: black; /* Optional: Change text color to black */
+    border: 1px solid #1f1818;
+  }
   
   form {
     display: flex;

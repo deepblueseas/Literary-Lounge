@@ -45,6 +45,9 @@ const Header = () => {
                 mr={2}
                 size="lg"
                 w={{ base: '100%', md: 'auto' }}
+                bg="white"  // Ensure the background is white
+                color="black"  // Ensure the text color is black for readability
+                borderColor="gray.300"
               />
               <Button type="submit" bg="primary" color="white" size="lg">
                 Search
